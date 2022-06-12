@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% load static %}
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>{% block titulo %} Libros y Cosas {% endblock titulo %}</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+  <!-- <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=Inter:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">-->
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS Files -->
+  <link href="{% static 'assets/css/variables.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: ZenBlog - v1.0.0
+  * Template URL: https://bootstrapmade.com/zenblog-bootstrap-blog-template/
+  * Author: BootstrapMade.com
+  * License: https:///bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+      <a href="{% url 'blog:home' %}" class="logo d-flex align-items-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+
+        <img src="{% static 'assets/img/logo.png' %}" alt="Logo">Libros y Cosas
+      </a>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a href="{% url 'blog:home' %}">Inicio</a></li>
+          <li><a href="{% url 'blog:noticias' %}">Noticias</a></li>
+          <li><a href="{% url 'blog:resenas' %}">Reseñas</a></li>
+          <li><a href="{% url 'blog:nosotros' %}">Nosotros</a></li>
+          <li><a href="{% url 'blog:contacto' %}">Contacto</a></li>
+
+        </ul>
+      </nav><!-- .navbar -->
+
+      <nav id="navbar" class="navbar">
+        <ul>
+
+          {% if user.is_authenticated %}
+          <li><a href="#"> @{{ user.username }} </a></li>
+          <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
+          {% else %}
+          <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
+          <li><a href="{% url 'blog:registro' %}">Registro</a></li>
+          {% endif %}
+
+        </ul>
+      </nav>
+
+
+
+    </div>
+  </header><!-- End Header -->
+
+  <main id="main">
+    <section class="masthead"
+      style="background-image: url({% block imagen_principal %} {% static 'assets/img/home.jpg' %} {% endblock imagen_principal %})">
+      <div class="container position-relative px-3 px-lg-4">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+          <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="site-heading">
+              <h1>{% block titulo_pagina %} Libros y Cosas {% endblock titulo_pagina %}</h1>
+              <span class="subheading">
+                {% block sub_titulo_pagina %}
+                Un Blog para Leer
+                {% endblock sub_titulo_pagina %}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    {% block contenido %}
+
+    <section>
+
+      <div class="container">
+        <div class="row">
+          <!-- Blog entries-->
+          <div class="col-lg-9">
+            <!-- Featured blog post-->
+            <!-- <div class="card mb-4">
+              <a href="#!"><img class="card-img-top" src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg"
+                  alt="..." /></a>
+              <div class="card-body">
+                <div class="small text-muted">January 1, 2022</div>
+                <h2 class="card-title">Featured Post Title</h2>
+                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque,
+                  nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate
+                  voluptatibus possimus, veniam magni quis!</p>
+                <a class="btn btn-primary" href="#!">Read more →</a>
+              </div>
+            </div> -->
+            <!-- Nested row for non-featured blog posts-->
+            <div class="row">
+
+              <!-- Blog post-->
+              <div class="card m-1 p-3 col-lg-5 ">
+                <div class="row g-0">
+                  <div class="col-md-5">
+                    <img src="{% static 'assets/img/dummy_post.png' %}" alt="Trendy Pants and Shoes"
+                      class="image-fluid rounded d-flex justify-content-start" style='width: 100%' />
+                  </div>
+                  <div class="col-md-7 pr-3 card-body">
+                    <div class="small text-muted d-flex justify-content-end p-0">January 1, 2022</div>
+                    <h2 class="card-title h4 py-3">Post Title</h2>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis
+                      aliquid atque, nulla.</p>
+                  </div>
+                  <div class="col-md-12 d-flex justify-content-between pt-3">
+                    <p class="card-text">
+                      <small class="text-muted">Last updated 3 mins ago</small>
+                    </p>
+                    <a class="btn btn-primary" href="#!">Leer →</a>
+                  </div>
+                </div>
+              </div>
+              <!-- Blog post-->
+              <div class="card m-1 p-3 col-lg-5 ">
+                <div class="row g-0">
+                  <div class="col-md-5">
+                    <img src="{% static 'assets/img/dummy_post.png' %}" alt="Trendy Pants and Shoes"
+                      class="image-fluid rounded d-flex justify-content-start" style='width: 100%' />
+                  </div>
+                  <div class="col-md-7 pr-3 card-body">
+                    <div class="small text-muted d-flex justify-content-end p-0">January 1, 2022</div>
+                    <h2 class="card-title h4 py-3">Post Title</h2>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis
+                      aliquid atque, nulla.</p>
+                  </div>
+                  <div class="col-md-12 d-flex justify-content-between pt-3">
+                    <p class="card-text">
+                      <small class="text-muted">Last updated 3 mins ago</small>
+                    </p>
+                    <a class="btn btn-primary" href="#!">Leer →</a>
+                  </div>
+                </div>
+              </div>
+              <!-- Blog post-->
+              <div class="card m-1 p-3 col-lg-5 ">
+                <div class="row g-0">
+                  <div class="col-md-5">
+                    <img src="{% static 'assets/img/dummy_post.png' %}" alt="Trendy Pants and Shoes"
+                      class="image-fluid rounded d-flex justify-content-start" style='width: 100%' />
+                  </div>
+                  <div class="col-md-7 pr-3 card-body">
+                    <div class="small text-muted d-flex justify-content-end p-0">January 1, 2022</div>
+                    <h2 class="card-title h4 py-3">Post Title</h2>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis
+                      aliquid atque, nulla.</p>
+                  </div>
+                  <div class="col-md-12 d-flex justify-content-between pt-3">
+                    <p class="card-text">
+                      <small class="text-muted">Last updated 3 mins ago</small>
+                    </p>
+                    <a class="btn btn-primary" href="#!">Leer →</a>
+                  </div>
+                </div>
+              </div>
+              <!-- Blog post-->
+              <div class="card m-1 p-3 col-lg-5 ">
+                <div class="row g-0">
+                  <div class="col-md-5">
+                    <img src="{% static 'assets/img/dummy_post.png' %}" alt="Trendy Pants and Shoes"
+                      class="image-fluid rounded d-flex justify-content-start" style='width: 100%' />
+                  </div>
+                  <div class="col-md-7 pr-3 card-body">
+                    <div class="small text-muted d-flex justify-content-end p-0">January 1, 2022</div>
+                    <h2 class="card-title h4 py-3">Post Title</h2>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis
+                      aliquid atque, nulla.</p>
+                  </div>
+                  <div class="col-md-12 d-flex justify-content-between pt-3">
+                    <p class="card-text">
+                      <small class="text-muted">Last updated 3 mins ago</small>
+                    </p>
+                    <a class="btn btn-primary" href="#!">Leer →</a>
+                  </div>
+                </div>
+              </div>
+              <!-- Blog post-->
+              <div class="card m-1 p-3 col-lg-5 ">
+                <div class="row g-0">
+                  <div class="col-md-5">
+                    <img src="{% static 'assets/img/dummy_post.png' %}" alt="Trendy Pants and Shoes"
+                      class="image-fluid rounded d-flex justify-content-start" style='width: 100%' />
+                  </div>
+                  <div class="col-md-7 pr-3 card-body">
+                    <div class="small text-muted d-flex justify-content-end p-0">January 1, 2022</div>
+                    <h2 class="card-title h4 py-3">Post Title</h2>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis
+                      aliquid atque, nulla.</p>
+                  </div>
+                  <div class="col-md-12 d-flex justify-content-between pt-3">
+                    <p class="card-text">
+                      <small class="text-muted">Last updated 3 mins ago</small>
+                    </p>
+                    <a class="btn btn-primary" href="#!">Leer →</a>
+                  </div>
+                </div>
+              </div>
+              <!-- Blog post-->
+              <div class="card m-1 p-3 col-lg-5 ">
+                <div class="row g-0">
+                  <div class="col-md-5">
+                    <img src="{% static 'assets/img/dummy_post.png' %}" alt="Trendy Pants and Shoes"
+                      class="image-fluid rounded d-flex justify-content-start" style='width: 100%' />
+                  </div>
+                  <div class="col-md-7 pr-3 card-body">
+                    <div class="small text-muted d-flex justify-content-end p-0">January 1, 2022</div>
+                    <h2 class="card-title h4 py-3">Post Title</h2>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis
+                      aliquid atque, nulla.</p>
+                  </div>
+                  <div class="col-md-12 d-flex justify-content-between pt-3">
+                    <p class="card-text">
+                      <small class="text-muted">Last updated 3 mins ago</small>
+                    </p>
+                    <a class="btn btn-primary" href="#!">Leer →</a>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <!-- Pagination-->
+            <nav aria-label="Pagination">
+              <hr class="my-0" />
+              <ul class="pagination justify-content-center my-4">
+                <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1"
+                    aria-disabled="true">Newer</a></li>
+                <li class="page-item active" aria-current="page"><a class="page-link" href="#!">1</a></li>
+                <li class="page-item"><a class="page-link" href="#!">2</a></li>
+                <li class="page-item"><a class="page-link" href="#!">3</a></li>
+                <li class="page-item disabled"><a class="page-link" href="#!">...</a></li>
+                <li class="page-item"><a class="page-link" href="#!">15</a></li>
+                <li class="page-item"><a class="page-link" href="#!">Older</a></li>
+              </ul>
+            </nav>
+          </div>
+          <!-- Side widgets-->
+          <div class="col-lg-3">
+            <!-- Search widget-->
+            <div class="card mb-4">
+              <div class="card-header">Search</div>
+              <div class="card-body">
+                <div class="input-group">
+                  <input class="form-control" type="text" placeholder="Enter search term..."
+                    aria-label="Enter search term..." aria-describedby="button-search" />
+                  <button class="btn btn-primary" id="button-search" type="button">Go!</button>
+                </div>
+              </div>
+            </div>
+            <!-- Categories widget-->
+            <div class="card mb-4">
+              <div class="card-header">Categories</div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <ul class="list-unstyled mb-0">
+                      <li><a href="#!">Web Design</a></li>
+                      <li><a href="#!">HTML</a></li>
+                      <li><a href="#!">Freebies</a></li>
+                    </ul>
+                  </div>
+                  <div class="col-sm-6">
+                    <ul class="list-unstyled mb-0">
+                      <li><a href="#!">JavaScript</a></li>
+                      <li><a href="#!">CSS</a></li>
+                      <li><a href="#!">Tutorials</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Side widget-->
+            <div class="card mb-4">
+              <div class="card-header">Side Widget</div>
+              <div class="card-body">You can put anything you want inside of these side widgets. They are easy to use,
+                and feature the Bootstrap 5 card component!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    {% endblock contenido %}
+  </main>
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+
+    <div class="footer-content">
+      <div class="container">
+
+        <div class="row g-5">
+          <div class="col-lg-4">
+            <h3 class="footer-heading">About ZenBlog</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam ab, perspiciatis beatae autem deleniti
+              voluptate nulla a dolores, exercitationem eveniet libero laudantium recusandae officiis qui aliquid
+              blanditiis omnis quae. Explicabo?</p>
+            <p><a href="about.html" class="footer-link-more">Learn More</a></p>
+          </div>
+          <div class="col-6 col-lg-2">
+            <h3 class="footer-heading">Navigation</h3>
+            <ul class="footer-links list-unstyled">
+              <li><a href="index.html"><i class="bi bi-chevron-right"></i> Home</a></li>
+              <li><a href="index.html"><i class="bi bi-chevron-right"></i> Blog</a></li>
+              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Categories</a></li>
+              <li><a href="single-post.html"><i class="bi bi-chevron-right"></i> Single Post</a></li>
+              <li><a href="about.html"><i class="bi bi-chevron-right"></i> About us</a></li>
+              <li><a href="contact.html"><i class="bi bi-chevron-right"></i> Contact</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-lg-2">
+            <h3 class="footer-heading">Categories</h3>
+            <ul class="footer-links list-unstyled">
+              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Business</a></li>
+              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Culture</a></li>
+              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Sport</a></li>
+              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Food</a></li>
+              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Politics</a></li>
+              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Celebrity</a></li>
+              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Startups</a></li>
+              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Travel</a></li>
+
+            </ul>
+          </div>
+
+          <div class="col-lg-4">
+            <h3 class="footer-heading">Recent Posts</h3>
+
+            <ul class="footer-links footer-blog-entry list-unstyled">
+              <li>
+                <a href="single-post.html" class="d-flex align-items-center">
+                  <img src="assets/img/post-sq-1.jpg" alt="" class="img-fluid me-3">
+                  <div>
+                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span>
+                      <span>Jul 5th '22</span>
+                    </div>
+                    <span>5 Great Startup Tips for Female Founders</span>
+                  </div>
+                </a>
+              </li>
+
+              <li>
+                <a href="single-post.html" class="d-flex align-items-center">
+                  <img src="assets/img/post-sq-2.jpg" alt="" class="img-fluid me-3">
+                  <div>
+                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span>
+                      <span>Jul 5th '22</span>
+                    </div>
+                    <span>What is the son of Football Coach John Gruden, Deuce Gruden doing Now?</span>
+                  </div>
+                </a>
+              </li>
+
+              <li>
+                <a href="single-post.html" class="d-flex align-items-center">
+                  <img src="assets/img/post-sq-3.jpg" alt="" class="img-fluid me-3">
+                  <div>
+                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span>
+                      <span>Jul 5th '22</span>
+                    </div>
+                    <span>Life Insurance And Pregnancy: A Working Mom’s Guide</span>
+                  </div>
+                </a>
+              </li>
+
+              <li>
+                <a href="single-post.html" class="d-flex align-items-center">
+                  <img src="assets/img/post-sq-4.jpg" alt="" class="img-fluid me-3">
+                  <div>
+                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span>
+                      <span>Jul 5th '22</span>
+                    </div>
+                    <span>How to Avoid Distraction and Stay Focused During Video Calls?</span>
+                  </div>
+                </a>
+              </li>
+
+            </ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-legal">
+      <div class="container">
+
+        <div class="row justify-content-between">
+          <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+            <div class="copyright">
+              © Copyright <strong><span>ZenBlog</span></strong>. All Rights Reserved
+            </div>
+
+          </div>
+
+          <div class="col-md-6">
+            <div class="social-links mb-3 mb-lg-0 text-center text-md-end">
+              <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+              <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="google-plus"><i class="bi bi-skype"></i></a>
+              <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </footer>
+
+  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+
+</html>
