@@ -125,134 +125,35 @@
             </div> -->
             <!-- Nested row for non-featured blog posts-->
             <div class="row">
+              {% if resenas %}
+                {% for resena in resenas %}
+                  <!-- Blog post-->
+                  <div class="card m-1 p-3 col-lg-5 ">
+                    <div class="row g-0">
+                      <div class="col-md-5">
+                        <img src="{{ resena.imagen.url }}" alt="{{ resena.titulo }}"
+                          class="image-fluid rounded d-flex justify-content-start" style='width: 100%' />
+                      </div>
+                      <div class="col-md-7 pr-3 card-body">
+                        <div class="small text-muted d-flex justify-content-end p-0">{{ resena.fecha_alta }}</div>
+                        <h2 class="card-title h4 py-3">{{ resena.titulo }}</h2>
+                        <p class="card-text">{{ resena.resumen }}</p>
+                      </div>
+                      <div class="col-md-12 d-flex justify-content-between pt-3">
+                        <p class="card-text">
+                          <small class="text-muted">{{ resena.autor }}</small>
+                        </p>
+                        <a class="btn btn-primary" href="{% url 'blog:detalleResena' resena.slug %}">Leer →</a>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              {% else %}
 
-              <!-- Blog post-->
-              <div class="card m-1 p-3 col-lg-5 ">
-                <div class="row g-0">
-                  <div class="col-md-5">
-                    <img src="{% static 'assets/img/dummy_post.png' %}" alt="Trendy Pants and Shoes"
-                      class="image-fluid rounded d-flex justify-content-start" style='width: 100%' />
-                  </div>
-                  <div class="col-md-7 pr-3 card-body">
-                    <div class="small text-muted d-flex justify-content-end p-0">January 1, 2022</div>
-                    <h2 class="card-title h4 py-3">Post Title</h2>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis
-                      aliquid atque, nulla.</p>
-                  </div>
-                  <div class="col-md-12 d-flex justify-content-between pt-3">
-                    <p class="card-text">
-                      <small class="text-muted">Last updated 3 mins ago</small>
-                    </p>
-                    <a class="btn btn-primary" href="#!">Leer →</a>
-                  </div>
-                </div>
-              </div>
-              <!-- Blog post-->
-              <div class="card m-1 p-3 col-lg-5 ">
-                <div class="row g-0">
-                  <div class="col-md-5">
-                    <img src="{% static 'assets/img/dummy_post.png' %}" alt="Trendy Pants and Shoes"
-                      class="image-fluid rounded d-flex justify-content-start" style='width: 100%' />
-                  </div>
-                  <div class="col-md-7 pr-3 card-body">
-                    <div class="small text-muted d-flex justify-content-end p-0">January 1, 2022</div>
-                    <h2 class="card-title h4 py-3">Post Title</h2>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis
-                      aliquid atque, nulla.</p>
-                  </div>
-                  <div class="col-md-12 d-flex justify-content-between pt-3">
-                    <p class="card-text">
-                      <small class="text-muted">Last updated 3 mins ago</small>
-                    </p>
-                    <a class="btn btn-primary" href="#!">Leer →</a>
-                  </div>
-                </div>
-              </div>
-              <!-- Blog post-->
-              <div class="card m-1 p-3 col-lg-5 ">
-                <div class="row g-0">
-                  <div class="col-md-5">
-                    <img src="{% static 'assets/img/dummy_post.png' %}" alt="Trendy Pants and Shoes"
-                      class="image-fluid rounded d-flex justify-content-start" style='width: 100%' />
-                  </div>
-                  <div class="col-md-7 pr-3 card-body">
-                    <div class="small text-muted d-flex justify-content-end p-0">January 1, 2022</div>
-                    <h2 class="card-title h4 py-3">Post Title</h2>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis
-                      aliquid atque, nulla.</p>
-                  </div>
-                  <div class="col-md-12 d-flex justify-content-between pt-3">
-                    <p class="card-text">
-                      <small class="text-muted">Last updated 3 mins ago</small>
-                    </p>
-                    <a class="btn btn-primary" href="#!">Leer →</a>
-                  </div>
-                </div>
-              </div>
-              <!-- Blog post-->
-              <div class="card m-1 p-3 col-lg-5 ">
-                <div class="row g-0">
-                  <div class="col-md-5">
-                    <img src="{% static 'assets/img/dummy_post.png' %}" alt="Trendy Pants and Shoes"
-                      class="image-fluid rounded d-flex justify-content-start" style='width: 100%' />
-                  </div>
-                  <div class="col-md-7 pr-3 card-body">
-                    <div class="small text-muted d-flex justify-content-end p-0">January 1, 2022</div>
-                    <h2 class="card-title h4 py-3">Post Title</h2>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis
-                      aliquid atque, nulla.</p>
-                  </div>
-                  <div class="col-md-12 d-flex justify-content-between pt-3">
-                    <p class="card-text">
-                      <small class="text-muted">Last updated 3 mins ago</small>
-                    </p>
-                    <a class="btn btn-primary" href="#!">Leer →</a>
-                  </div>
-                </div>
-              </div>
-              <!-- Blog post-->
-              <div class="card m-1 p-3 col-lg-5 ">
-                <div class="row g-0">
-                  <div class="col-md-5">
-                    <img src="{% static 'assets/img/dummy_post.png' %}" alt="Trendy Pants and Shoes"
-                      class="image-fluid rounded d-flex justify-content-start" style='width: 100%' />
-                  </div>
-                  <div class="col-md-7 pr-3 card-body">
-                    <div class="small text-muted d-flex justify-content-end p-0">January 1, 2022</div>
-                    <h2 class="card-title h4 py-3">Post Title</h2>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis
-                      aliquid atque, nulla.</p>
-                  </div>
-                  <div class="col-md-12 d-flex justify-content-between pt-3">
-                    <p class="card-text">
-                      <small class="text-muted">Last updated 3 mins ago</small>
-                    </p>
-                    <a class="btn btn-primary" href="#!">Leer →</a>
-                  </div>
-                </div>
-              </div>
-              <!-- Blog post-->
-              <div class="card m-1 p-3 col-lg-5 ">
-                <div class="row g-0">
-                  <div class="col-md-5">
-                    <img src="{% static 'assets/img/dummy_post.png' %}" alt="Trendy Pants and Shoes"
-                      class="image-fluid rounded d-flex justify-content-start" style='width: 100%' />
-                  </div>
-                  <div class="col-md-7 pr-3 card-body">
-                    <div class="small text-muted d-flex justify-content-end p-0">January 1, 2022</div>
-                    <h2 class="card-title h4 py-3">Post Title</h2>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis
-                      aliquid atque, nulla.</p>
-                  </div>
-                  <div class="col-md-12 d-flex justify-content-between pt-3">
-                    <p class="card-text">
-                      <small class="text-muted">Last updated 3 mins ago</small>
-                    </p>
-                    <a class="btn btn-primary" href="#!">Leer →</a>
-                  </div>
-                </div>
-              </div>
+                <h1>No existen Reseñas registradas</h1>
 
+              {% endif%}
+              
             </div>
             <!-- Pagination-->
             <nav aria-label="Pagination">

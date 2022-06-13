@@ -85,10 +85,10 @@ class Autor(models.Model):
 
 class Resena(models.Model):
     id = models.AutoField(primary_key=True)
-    titulo = models.CharField('Título del Post', max_length=50, null=False, blank=False, unique=True)
+    titulo = models.CharField('Título del Libro', max_length=50, null=False, blank=False, unique=True)
     slug = models.SlugField('Slug', max_length=40, null=False, blank=False, unique=True)
-    resumen = models.CharField('Resumen del Post', max_length=100, null=False, blank=False, unique=True)
-    imagen = models.ImageField(upload_to='images', null=False, blank=False)
+    resumen = models.TextField('Resumen del Post', max_length=200, null=False, blank=False, unique=True)
+    imagen = models.ImageField(upload_to='images/', null=False, blank=False)
     contenido = RichTextField('Contenido')
     autor = models.ForeignKey(Autor, on_delete=models.CASCADE)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
@@ -97,8 +97,8 @@ class Resena(models.Model):
     fecha_alta = models.DateField('Fecha de Creación', auto_now=False, auto_now_add=True)
 
     class Meta:
-        verbose_name = 'Reseña'
-        verbose_name_plural = 'Reseñas'
+        verbose_name = 'Resena'
+        verbose_name_plural = 'Resenas'
 
     def __str__(self):
         return self.titulo 
