@@ -87,9 +87,9 @@
   <main id="main">
     <section class="masthead"
       style="background-image: url({% block imagen_principal %} {% static 'assets/img/home.jpg' %} {% endblock imagen_principal %})">
-      <div class="container position-relative px-3 px-lg-4">
+      <div class="container position-relative px-0 px-lg-0">
         <div class="row gx-4 gx-lg-5 justify-content-center">
-          <div class="col-md-10 col-lg-8 col-xl-7">
+          <div class="col-md-10 col-lg-8 col-xl-7 pt-2">
             <div class="site-heading">
               <h1>{% block titulo_pagina %} Libros y Cosas {% endblock titulo_pagina %}</h1>
               <span class="subheading">
@@ -98,6 +98,25 @@
                 {% endblock sub_titulo_pagina %}
               </span>
             </div>
+            <!-- Barra de Búsqueda -->
+            <div class="container search-form">
+              <div class="row">
+                <div class="col-md-12 search">
+                  <form method="get">
+                    <div id="busqueda">
+                      <div class="input-group col-md-12">
+                        <input type="text" class="form-control" placeholder="Buscar..." name="buscar" value="{{request.GET.buscar}}">
+                        <span class="input-group-list">
+                          <i class="icon icon-search"></i>
+                          <button type="submit" class="btn btn-success">Buscar</button>
+                        </span>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- Fin Barra de Búsqueda -->
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ from pyexpat import model
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Resena
+from .models import Resena, Contacto
 
 class CustomUserCreationForm(UserCreationForm):
 
@@ -16,3 +16,8 @@ class FormlarioResena(forms.ModelForm):
     class Meta:
         model = Resena
         fields = ['titulo', 'slug', 'resumen', 'imagen', 'contenido', 'autor', 'categoria', 'usuario', 'estado']
+
+class FormularioContacto(forms.ModelForm):
+    class Meta:
+        model = Contacto
+        fields = '__all__'

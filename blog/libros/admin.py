@@ -29,6 +29,9 @@ class Resena_resource(resources.ModelResource):
     class Meta:
         model = Post
 
+class Contacto_resource(resources.ModelResource):
+    class Meta:
+        model = Contacto
 class Tema_admin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ['nombre'] 
     list_display = ('nombre', 'estado', 'fecha_alta')
@@ -59,9 +62,15 @@ class Resena_admin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('titulo', 'autor', 'categoria', 'fecha_alta')
     resource_class = Resena_resource
 
+class Contacto_admin(ImportExportModelAdmin, admin.ModelAdmin):
+    search_fields = ['nombre', 'email', 'mensaje']
+    list_display = ('nombre', 'email', 'mensaje')
+    resource_class = Contacto_resource
+
 admin.site.register(Tema, Tema_admin)
 admin.site.register(Categoria, Categoria_admin)
 admin.site.register(Usuario, Usuario_admin)
 admin.site.register(Post, Post_admin)
 admin.site.register(Autor, Autor_admin)
 admin.site.register(Resena, Resena_admin)
+admin.site.register(Contacto, Contacto_admin)

@@ -1,4 +1,5 @@
 from distutils.command.upload import upload
+import email
 from pyexpat import model
 from tabnanny import verbose
 from django.db import models
@@ -103,5 +104,17 @@ class Resena(models.Model):
     def __str__(self):
         return self.titulo 
 
+class Contacto(models.Model):
+    id = models.AutoField(primary_key=True)
+    nombre = models.CharField('Nombre del Remitente', max_length=50, null=False, blank=False, unique=True)
+    email = models.EmailField('Email', blank=False, null=False, unique=True)
+    asunto = models.CharField('Asunto del Mensaje', max_length=50, null=False, blank=False, unique=True)
+    mensaje = models.TextField('Contenido', null=True, blank=True)
 
+    class Meta:
+        verbose_name = 'Contacto'
+        verbose_name_plural = 'Contactos'
+
+    def __str__(self):
+        return self.nombre 
 
