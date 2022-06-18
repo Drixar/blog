@@ -25,11 +25,12 @@ a {
 }
 
 a:hover {
-  color: var(--color-links-hover);
   text-decoration: none;
+
 }
 
 h1, h2, h3, h4, h5, h6 {
+  /* font-family: var(--font-primary); */
   font-family: 'Roboto', sans-serif;
 }
 
@@ -132,11 +133,71 @@ section {
   color: var(--color-default);
   font-family: 'Roboto', sans-serif;
 }
+.header a, .header a:focus, .header a:hover  {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(33, 37, 41, 1);
+  white-space: nowrap;
+  transition: 0.3s;        
+  }
 
-.search-form{
-  margin-top: 3rem;
+.header a i, .header a:focus i {
+  font-size: 12px;
+  line-height: 0;
+  margin-left: 5px;
 }
 
+.search-form-wrap {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 9;
+  transition: 0.3s all ease;
+  visibility: hidden;
+  opacity: 0;
+}
+.search-form-wrap .search-form {
+  position: relative;
+}
+.search-form-wrap .search-form .form-control {
+  width: 300px;
+  border: none;
+  box-shadow: 0 15px 20px -10px rgba(var(--color-black-rgb), 0.1);
+  padding-left: 40px;
+  padding-right: 40px;
+}
+.search-form-wrap .search-form .form-control:active, .search-form-wrap .search-form .form-control:focus {
+  outline: none;
+  box-shadow: none;
+}
+.search-form-wrap .search-form .icon {
+  position: absolute;
+  left: 0;
+  top: 7px;
+  opacity: 0.5;
+  left: 10px;
+}
+.search-form-wrap .search-form .btn {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+  font-size: 30px;
+}
+.search-form-wrap .search-form .btn:active, .search-form-wrap .search-form .btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+.search-form-wrap.active {
+  visibility: visible;
+  opacity: 1;
+}
 
 section {
   scroll-margin-top: 70px;
@@ -149,6 +210,7 @@ section {
 .masthead {
   position: relative;
   /* margin-bottom: 3rem; */
+  height: 6rem;
   /* padding-top: calc(6rem + 57px); */
   /* padding-bottom: 8rem; */
   background: no-repeat center center;
@@ -180,7 +242,6 @@ section {
 .masthead .site-heading .h1 {
   font-size: 3rem;
 }
-
 .masthead .page-heading .subheading,
 .masthead .site-heading .subheading {
   font-size: 1.5rem;
@@ -215,8 +276,8 @@ section {
 }
 @media (min-width: 992px) {
   .masthead {
-    padding-top: 2.5rem;
-    padding-bottom: 2.5rem;
+    padding-top: 12.5rem;
+    padding-bottom: 12.5rem;
   }
   .masthead .page-heading h1, .masthead .page-heading .h1,
 .masthead .site-heading h1,
@@ -252,21 +313,28 @@ section {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 0 10px 30px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
+    padding: 1rem;
+    font-size: 1rem;
     font-weight: 500;
-    color: rgba(var(--color-default-rgb), 1);
+    color: rgba(33, 37, 41, 1);
     white-space: nowrap;
-    transition: 0.3s;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    transition: background-size 0.3s;
   }
+  
   .navbar a i, .navbar a:focus i {
     font-size: 12px;
     line-height: 0;
     margin-left: 5px;
   }
   .navbar a:hover, .navbar .active, .navbar .active:focus, .navbar li:hover > a {
-    color: var(--color-default);
+    text-decoration: none;
+    color: rgb(92, 10, 10);
+
+    background-size: 100% 2px;
   }
   .navbar .getstarted, .navbar .getstarted:focus {
     background: var(--color-primary);
@@ -362,13 +430,16 @@ section {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 15px;
+
+    font-size: 1rem;
     font-weight: 600;
-    color: var(--color-primary);
+    color: rgba(33, 37, 41, 1);
     white-space: nowrap;
-    transition: 0.3s;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    transition: background-size 0.3s;
   }
   .navbar a i, .navbar a:focus i {
     font-size: 12px;
@@ -376,7 +447,10 @@ section {
     margin-left: 5px;
   }
   .navbar a:hover, .navbar .active, .navbar .active:focus, .navbar li:hover > a {
-    color: var(--color-primary);
+    text-decoration: none;
+    color: rgb(92, 10, 10);
+ 
+    background-size: 100% 2px;
   }
   .navbar .dropdown ul, .navbar .dropdown .dropdown ul {
     position: static;
@@ -840,9 +914,7 @@ section {
 /*--------------------------------------------------------------
 # Comments
 --------------------------------------------------------------*/
-.comment {
-  /* Font not working in <textarea> for this version of bs */
-}
+
 .comment .avatar {
   position: relative;
   display: inline-block;
@@ -956,19 +1028,19 @@ section {
 /*--------------------------------------------------------------
 # Contact
 --------------------------------------------------------------*/
-.contacto .info-item {
+.contact .info-item {
   text-align: center;
 }
-.contacto .info-item i {
+.contact .info-item i {
   font-size: 48px;
   display: inline-block;
   margin-bottom: 10px;
   color: var(--color-primary);
 }
-.contacto .info-item address, .contacto .info-item p {
+.contact .info-item address, .contact .info-item p {
   margin-bottom: 0;
 }
-.contacto .info-item h3 {
+.contact .info-item h3 {
   font-size: 16px;
   margin-bottom: 15px;
   font-weight: bold;
@@ -976,26 +1048,26 @@ section {
   text-transform: uppercase;
   color: var(--color-primary);
 }
-.contacto .info-item a:hover {
+.contact .info-item a:hover {
   color: var(--color-primary);
 }
 @media (min-width: 768px) {
-  .contacto .info-item-borders {
+  .contact .info-item-borders {
     border-left: 1px solid rgba(var(--color-secondary-rgb), 0.2);
     border-right: 1px solid rgba(var(--color-secondary-rgb), 0.2);
   }
 }
-.contacto .contacto-form  {
+.contact .php-email-form {
   box-shadow: 0 0 30px rgba(var(--color-black-rgb), 0.1);
   padding: 30px;
   background: var(--color-white);
 }
 @media (max-width: 640px) {
-  .contacto .contacto-form  {
+  .contact .php-email-form {
     padding: 20px;
   }
 }
-.contacto .contacto-form  .error-message {
+.contact .php-email-form .error-message {
   display: none;
   color: var(--color-white);
   background: var(--color-red);
@@ -1003,10 +1075,10 @@ section {
   padding: 15px;
   font-weight: 600;
 }
-.contacto .contacto-form  .error-message br + br {
+.contact .php-email-form .error-message br + br {
   margin-top: 25px;
 }
-.contacto .contacto-form  .sent-message {
+.contact .php-email-form .sent-message {
   display: none;
   color: var(--color-white);
   background: var(--color-green);
@@ -1014,13 +1086,13 @@ section {
   padding: 15px;
   font-weight: 600;
 }
-.contacto .contacto-form  .loading {
+.contact .php-email-form .loading {
   display: none;
   background: var(--color-white);
   text-align: center;
   padding: 15px;
 }
-.contacto .contacto-form  .loading:before {
+.contact .php-email-form .loading:before {
   content: "";
   display: inline-block;
   border-radius: 50%;
@@ -1032,19 +1104,19 @@ section {
   -webkit-animation: animate-loading 1s linear infinite;
   animation: animate-loading 1s linear infinite;
 }
-.contacto .contacto-form  .form-group {
+.contact .php-email-form .form-group {
   margin-bottom: 20px;
 }
-.contacto .contacto-form  input, .contacto .contacto-form  textarea {
+.contact .php-email-form input, .contact .php-email-form textarea {
   padding: 10px 14px;
   border-radius: 0;
   box-shadow: none;
   font-size: 15px;
 }
-.contacto .contacto-form  input::focus, .contacto .contacto-form  textarea::focus {
+.contact .php-email-form input::focus, .contact .php-email-form textarea::focus {
   background-color: var(--color-primary);
 }
-.contacto .contacto-form  button[type=submit] {
+.contact .php-email-form button[type=submit] {
   background: var(--color-primary);
   border: 0;
   padding: 10px 30px;
@@ -1052,7 +1124,7 @@ section {
   transition: 0.4s;
   cursor: pointer;
 }
-.contacto .contacto-form  button[type=submit]:hover {
+.contact .php-email-form button[type=submit]:hover {
   background: rgba(var(--color-primary-rgb), 0.8);
 }
 @-webkit-keyframes animate-loading {

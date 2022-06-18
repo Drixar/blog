@@ -1,386 +1,340 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  {% load static %}
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+<head> {% load static %}
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>{% block titulo %} Libros y Cosas {% endblock titulo %}</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+    <title>{% block titulo %} Libros y Cosas {% endblock titulo %}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500&display=swap" rel="stylesheet" />
+    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/estilos.css' %}" rel="stylesheet">
+    <title>Administración Nakamura - Clientes</title>
+    <meta name="description" content="Administración de Consorcios, Condominios y Barrios Privados.">
+    <meta name="keywords" content="administracion, consorcio, edificio, condominio, barrio privado, country club">
+    <meta name="robots" content="index">
+    <meta name="author" content="Adrian Pablo Prado">
+    <meta name="copyright" content="Adminstracion Nakamura">
+    <link rel="icon" href="../images/favicon.ico">
 
-  <!-- Favicons -->
-  <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
-  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
-  <!-- <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=Inter:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">-->
-
-  <!-- Vendor CSS Files -->
-  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
-
-  <!-- Template Main CSS Files -->
-  <link href="{% static 'assets/css/variables.css' %}" rel="stylesheet">
-  <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: ZenBlog - v1.0.0
-  * Template URL: https://bootstrapmade.com/zenblog-bootstrap-blog-template/
-  * Author: BootstrapMade.com
-  * License: https:///bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
-<body>
+<body
+    style="background: radial-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.9)), url({% block imagen_principal %} {% static 'assets/img/home.jpg' %} {% endblock imagen_principal %}) no-repeat center center fixed; background-size: cover">
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="header d-flex align-items-center fixed-top">
-    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+    <!-- /*****************************/
+    /************HEADER***************/
+    /*********************************/ -->
 
-      <a href="{% url 'blog:home' %}" class="logo d-flex align-items-center">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
-
-        <img src="{% static 'assets/img/logo.png' %}" alt="Logo">Libros y Cosas
-      </a>
-
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a href="{% url 'blog:home' %}">Inicio</a></li>
-          <li><a href="{% url 'blog:noticias' %}">Noticias</a></li>
-          <li><a href="{% url 'blog:resenas' %}">Reseñas</a></li>
-          <li><a href="{% url 'blog:nosotros' %}">Nosotros</a></li>
-          <li><a href="{% url 'blog:contacto' %}">Contacto</a></li>
-
-        </ul>
-      </nav><!-- .navbar -->
-
-      <nav id="navbar" class="navbar">
-        <ul>
-
-          {% if user.is_authenticated %}
-          <li><a href="#"> @{{ user.username }} </a></li>
-          <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
-          {% else %}
-          <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
-          <li><a href="{% url 'blog:registro' %}">Registro</a></li>
-          {% endif %}
-
-        </ul>
-      </nav>
+    <header id="header">
 
 
+        <!-- /****************************/
+        /***********TOP-BAR***************/
+        /*********************************/ -->
 
-    </div>
-  </header><!-- End Header -->
-
-  <main id="main">
-    <section class="masthead"
-      style="background-image: url({% block imagen_principal %} {% static 'assets/img/home.jpg' %} {% endblock imagen_principal %})">
-      <div class="container position-relative px-0 px-lg-0">
-        <div class="row gx-4 gx-lg-5 justify-content-center">
-          <div class="col-md-10 col-lg-8 col-xl-7 pt-2">
-            <div class="site-heading">
-              <h1>{% block titulo_pagina %} Libros y Cosas {% endblock titulo_pagina %}</h1>
-              <span class="subheading">
-                {% block sub_titulo_pagina %}
-                Un Blog para Leer
-                {% endblock sub_titulo_pagina %}
-              </span>
-            </div>
-            <!-- Barra de Búsqueda -->
-            <div class="container search-form">
-              <div class="row">
-                <div class="col-md-12 search">
-                  <form method="get">
-                    <div id="busqueda">
-                      <div class="input-group col-md-12">
-                        <input type="text" class="form-control" placeholder="Buscar..." name="buscar" value="{{request.GET.buscar}}">
-                        <span class="input-group-list">
-                          <i class="icon icon-search"></i>
-                          <button type="submit" class="btn btn-success">Buscar</button>
-                        </span>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-            <!-- Fin Barra de Búsqueda -->
-          </div>
-        </div>
-      </div>
-    </section>
-    {% block contenido %}
-
-    <section>
-
-      <div class="container">
-        <div class="row">
-          <!-- Blog entries-->
-          <div class="col-lg-9">
-            <!-- Featured blog post-->
-            <!-- <div class="card mb-4">
-              <a href="#!"><img class="card-img-top" src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg"
-                  alt="..." /></a>
-              <div class="card-body">
-                <div class="small text-muted">January 1, 2022</div>
-                <h2 class="card-title">Featured Post Title</h2>
-                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque,
-                  nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate
-                  voluptatibus possimus, veniam magni quis!</p>
-                <a class="btn btn-primary" href="#!">Read more →</a>
-              </div>
-            </div> -->
-            <!-- Nested row for non-featured blog posts-->
-            <div class="row">
-              {% if resenas %}
-                {% for resena in resenas %}
-                  <!-- Blog post-->
-                  <div class="card m-1 p-3 col-lg-5 ">
-                    <div class="row g-0">
-                      <div class="col-md-5">
-                        <img src="{{ resena.imagen.url }}" alt="{{ resena.titulo }}"
-                          class="image-fluid rounded d-flex justify-content-start" style='width: 100%' />
-                      </div>
-                      <div class="col-md-7 pr-3 card-body">
-                        <div class="small text-muted d-flex justify-content-end p-0">{{ resena.fecha_alta }}</div>
-                        <h2 class="card-title h4 py-3">{{ resena.titulo }}</h2>
-                        <p class="card-text">{{ resena.resumen }}</p>
-                      </div>
-                      <div class="col-md-12 d-flex justify-content-between pt-3">
-                        <p class="card-text">
-                          <small class="text-muted">{{ resena.autor }}</small>
-                        </p>
-                        <a class="btn btn-primary" href="{% url 'blog:detalleResena' resena.slug %}">Leer →</a>
-                      </div>
-                    </div>
-                  </div>
-                {% endfor %}
-              {% else %}
-
-                <h1>No existen Reseñas registradas</h1>
-
-              {% endif%}
-              
-            </div>
-            <!-- Pagination-->
-            <nav aria-label="Pagination">
-              <hr class="my-0" />
-              <ul class="pagination justify-content-center my-4">
-                <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1"
-                    aria-disabled="true">Newer</a></li>
-                <li class="page-item active" aria-current="page"><a class="page-link" href="#!">1</a></li>
-                <li class="page-item"><a class="page-link" href="#!">2</a></li>
-                <li class="page-item"><a class="page-link" href="#!">3</a></li>
-                <li class="page-item disabled"><a class="page-link" href="#!">...</a></li>
-                <li class="page-item"><a class="page-link" href="#!">15</a></li>
-                <li class="page-item"><a class="page-link" href="#!">Older</a></li>
-              </ul>
-            </nav>
-          </div>
-          <!-- Side widgets-->
-          <div class="col-lg-3">
-            <!-- Search widget-->
-            <div class="card mb-4">
-              <div class="card-header">Search</div>
-              <div class="card-body">
-                <div class="input-group">
-                  <input class="form-control" type="text" placeholder="Enter search term..."
-                    aria-label="Enter search term..." aria-describedby="button-search" />
-                  <button class="btn btn-primary" id="button-search" type="button">Go!</button>
-                </div>
-              </div>
-            </div>
-            <!-- Categories widget-->
-            <div class="card mb-4">
-              <div class="card-header">Categories</div>
-              <div class="card-body">
+        <div class="top__bar ">
+            <div class="container-fluid">
                 <div class="row">
-                  <div class="col-sm-6">
-                    <ul class="list-unstyled mb-0">
-                      <li><a href="#!">Web Design</a></li>
-                      <li><a href="#!">HTML</a></li>
-                      <li><a href="#!">Freebies</a></li>
-                    </ul>
-                  </div>
-                  <div class="col-sm-6">
-                    <ul class="list-unstyled mb-0">
-                      <li><a href="#!">JavaScript</a></li>
-                      <li><a href="#!">CSS</a></li>
-                      <li><a href="#!">Tutorials</a></li>
-                    </ul>
-                  </div>
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="top__brand">
+                            <a href="{% url 'blog:index' %}">
+                                <img src="{% static 'assets/img/logo.png' %}" alt="Logo">Libros y Cosas
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="top__user">
+                            <ul class="top__user__share">
+                                {% if user.is_authenticated %}
+                                <li><a href="#"> @{{ user.username }} </a></li>
+                                <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
+                                {% else %}
+                                <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
+                                <li><a href="{% url 'blog:registro' %}">Registro</a></li>
+                                {% endif %}
+
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-            <!-- Side widget-->
-            <div class="card mb-4">
-              <div class="card-header">Side Widget</div>
-              <div class="card-body">You can put anything you want inside of these side widgets. They are easy to use,
-                and feature the Bootstrap 5 card component!</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </section>
-
-    {% endblock contenido %}
-  </main>
-
-  <!-- ======= Footer ======= -->
-  <footer id="footer" class="footer">
-
-    <div class="footer-content">
-      <div class="container">
-
-        <div class="row g-5">
-          <div class="col-lg-4">
-            <h3 class="footer-heading">About ZenBlog</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam ab, perspiciatis beatae autem deleniti
-              voluptate nulla a dolores, exercitationem eveniet libero laudantium recusandae officiis qui aliquid
-              blanditiis omnis quae. Explicabo?</p>
-            <p><a href="about.html" class="footer-link-more">Learn More</a></p>
-          </div>
-          <div class="col-6 col-lg-2">
-            <h3 class="footer-heading">Navigation</h3>
-            <ul class="footer-links list-unstyled">
-              <li><a href="index.html"><i class="bi bi-chevron-right"></i> Home</a></li>
-              <li><a href="index.html"><i class="bi bi-chevron-right"></i> Blog</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Categories</a></li>
-              <li><a href="single-post.html"><i class="bi bi-chevron-right"></i> Single Post</a></li>
-              <li><a href="about.html"><i class="bi bi-chevron-right"></i> About us</a></li>
-              <li><a href="contact.html"><i class="bi bi-chevron-right"></i> Contact</a></li>
-            </ul>
-          </div>
-          <div class="col-6 col-lg-2">
-            <h3 class="footer-heading">Categories</h3>
-            <ul class="footer-links list-unstyled">
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Business</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Culture</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Sport</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Food</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Politics</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Celebrity</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Startups</a></li>
-              <li><a href="category.html"><i class="bi bi-chevron-right"></i> Travel</a></li>
-
-            </ul>
-          </div>
-
-          <div class="col-lg-4">
-            <h3 class="footer-heading">Recent Posts</h3>
-
-            <ul class="footer-links footer-blog-entry list-unstyled">
-              <li>
-                <a href="single-post.html" class="d-flex align-items-center">
-                  <img src="assets/img/post-sq-1.jpg" alt="" class="img-fluid me-3">
-                  <div>
-                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span>
-                      <span>Jul 5th '22</span>
-                    </div>
-                    <span>5 Great Startup Tips for Female Founders</span>
-                  </div>
-                </a>
-              </li>
-
-              <li>
-                <a href="single-post.html" class="d-flex align-items-center">
-                  <img src="assets/img/post-sq-2.jpg" alt="" class="img-fluid me-3">
-                  <div>
-                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span>
-                      <span>Jul 5th '22</span>
-                    </div>
-                    <span>What is the son of Football Coach John Gruden, Deuce Gruden doing Now?</span>
-                  </div>
-                </a>
-              </li>
-
-              <li>
-                <a href="single-post.html" class="d-flex align-items-center">
-                  <img src="assets/img/post-sq-3.jpg" alt="" class="img-fluid me-3">
-                  <div>
-                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span>
-                      <span>Jul 5th '22</span>
-                    </div>
-                    <span>Life Insurance And Pregnancy: A Working Mom’s Guide</span>
-                  </div>
-                </a>
-              </li>
-
-              <li>
-                <a href="single-post.html" class="d-flex align-items-center">
-                  <img src="assets/img/post-sq-4.jpg" alt="" class="img-fluid me-3">
-                  <div>
-                    <div class="post-meta d-block"><span class="date">Culture</span> <span class="mx-1">&bullet;</span>
-                      <span>Jul 5th '22</span>
-                    </div>
-                    <span>How to Avoid Distraction and Stay Focused During Video Calls?</span>
-                  </div>
-                </a>
-              </li>
-
-            </ul>
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-legal">
-      <div class="container">
-
-        <div class="row justify-content-between">
-          <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-            <div class="copyright">
-              © Copyright <strong><span>ZenBlog</span></strong>. All Rights Reserved
-            </div>
-
-          </div>
-
-          <div class="col-md-6">
-            <div class="social-links mb-3 mb-lg-0 text-center text-md-end">
-              <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-              <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-              <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-              <a href="#" class="google-plus"><i class="bi bi-skype"></i></a>
-              <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-            </div>
-
-          </div>
-
         </div>
 
-      </div>
-    </div>
+        <!-- /****************************/
+        /***********NAV-BAR***************/
+        /*********************************/ -->
+        {% block menu_pagina %}
+        <nav class="navbar navbar-expand-lg ">
+            <div class="container-fluid">
+                <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="toggler-icon top-bar"></span>
+                    <span class="toggler-icon middle-bar"></span>
+                    <span class="toggler-icon bottom-bar"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav  py-2">
+                        <li class="nav-item active">
+                            <a href="{% url 'blog:index' %}">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'blog:listar_resena' %}">Reseñas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'blog:listar_categoria' %}">Categorías</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'blog:listar_autor' %}">Autores</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'blog:nosotros' %}">Nosotros</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'blog:contacto' %}">Contacto</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        {% endblock menu_pagina %}
 
-  </footer>
+        <!--/*********************************/
+        /********BANER SUPERIOR***********/
+        /*********************************/ -->
 
-  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i
-      class="bi bi-arrow-up-short"></i></a>
+        <div class="container-fluid baner">
+            <div class="row head gx-0 justify-content-center align-content-start">
+                <h1 class="col-sm-12 p-0 m-0">Libros y Cosas</h1>
+            </div>
+        </div>
+        <div class="row titulo">
+            <a href="#inicio">
+                <h2 class="col-sm-12">
+                    {% block sub_titulo_pagina %}
+                    Un Blog para Leer
+                    {% endblock sub_titulo_pagina %}</h2>
+            </a>
+        </div>
+    </header>
 
-  <!-- Vendor JS Files -->
-  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
-  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
-  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
-  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
-  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+    <main>
+        <section id="inicio">
 
-  <!-- Template Main JS File -->
-  <script src="{% static 'assets/js/main.js' %}"></script>
 
+            <section>
+                <div class="container  mt-4">
+                    <div class="row">
+                        {% block contenido %}
+                        <div class="col-lg-9">
+                            <!-- Nested row for non-featured blog posts-->
+                            <div class="row justify-content-around">
+                                {% if resenas %}
+                                {% for resena in resenas %}
+                                <!-- Blog post-->
+                                <div class="card m-1 py-4 px-2 col-lg-5 resena">
+                                    <div class="row g-0">
+                                        <div class="col-md-5 px-2">
+                                            <div class="small text-muted d-flex justify-content-start p-0">
+                                                {{ resena.fecha_alta }}</div>
+                                            <img src="{{ resena.imagen.url }}" alt="{{ resena.titulo }}"
+                                                class="image-fluid rounded d-flex justify-content-start py-3"
+                                                style='width: 100%' />
+                                        </div>
+                                        <div class="col-md-7 card-body px-2 py-0">
+                                            <div class="small text-muted d-flex justify-content-end p-0">
+                                                <a href="{% url 'blog:buscar_categoria' resena.categoria_id %}" class="link-light">{{resena.categoria}}</a>
+                                            </div>
+                                            <h2 class="card-title h4 py-3">{{ resena.titulo }}</h2>
+                                            <p class="card-text">{{ resena.resumen }}</p>
+                                        </div>
+                                        <div class="col-md-12 d-flex justify-content-between pt-3 px-2">
+                                            <a href="{% url 'blog:buscar_autor' resena.autor_id %}" class="link-light">{{resena.autor}}</a>
+                                            <a class="btn btn-danger" href="{% url 'blog:detalleResena' resena.slug %}">Leer →</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                <!-- Pagination-->
+
+                                <div class="row">
+                                    <nav class="col-lg-6 offset-lg-3 mt-4 d-flex justify-content-center">
+                                        <ul class="pagination">
+                                            {% if resenas.has_previous %}
+                                            <li class="page-item">
+                                                <a class="page-link prev"
+                                                    href="?pagina={{ resenas.previous_page_number }}">Previous</a>
+                                            </li>
+                                            {% else %}
+                                            <li class="page-item disabled">
+                                                <a class="page-link " href="#">Previous</a>
+                                            </li>
+                                            {% endif %}
+
+                                            {% for i in resenas.paginator.page_range %}
+                                            <li class=" page-item {% if resenas.number == i %}active{% endif %}">
+                                                <a class="page-link" href="?pagina={{ i }}">{{ i }}</a>
+                                            </li>
+                                            {% endfor %}
+
+                                            {% if resenas.has_next %}
+                                            <li class="page-item">
+                                                <a class="page-link next" a
+                                                    href="?pagina={{ resenas.next_page_number }}">Next</a>
+                                            </li>
+                                            {% else %}
+                                            <li class="page-item disabled">
+                                                <a class="page-link" href="#">Next</a>
+                                            </li>
+                                            {% endif %}
+
+                                        </ul>
+                                    </nav>
+                                </div>
+                                {% else %}
+                                <h1>No existen Reseñas registradas</h1>
+                                {% endif%}
+
+
+
+                            </div>
+                        </div>
+                        {% endblock contenido %}
+                        <!-- Side widgets-->
+                        <div class="col-lg-3 ">
+                            <!-- Search widget-->
+                            <div class="card mb-4 buscar">
+                                <div class="card-header">Buscar</div>
+                                <div class="card-body">
+                                    <form method="get">
+                                        <div id="busqueda">
+                                            <div class="input-group col-md-12">
+                                                <input type="text" class="form-control" placeholder="Buscar..."
+                                                    name="buscar" value="{{request.GET.buscar}}">
+                                                <span class="input-group-list">
+                                                    <i class="icon icon-search"></i>
+                                                    <button type="submit" class="btn btn-danger">Buscar</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- Categories widget-->
+                            <div class="card mb-4 categorias">
+                                <div class="card-header"> <a href="#" class="link-light">Categorías</a></div>
+                                <div class="card-body">
+                                    {% if lista_categorias %}
+                                    <div class="row row-cols-2">
+                                        {% for categoria in lista_categorias %}
+                                        <div class="col">
+                                            <a href="{% url 'blog:buscar_categoria' categoria.id %}" class="link-light">{{categoria.nombre}}</a>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                            <!-- Side widget-->
+                            <div class="card mb-4 autores">
+                                <div class="card-header"><a href="#" class="link-light">Autores</a></div>
+                                <div class="card-body">
+                                    {% if lista_autores %}
+                                    <div class="row row-cols-1">
+                                        {% for autor in lista_autores %}
+                                        <div class="col">
+                                            <a href="{% url 'blog:buscar_autor' autor.id %}" class="link-light">{{autor.nombre}}</a>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+
+    </main>
+
+    <!--/*********************************/
+            /************FOOTER***************/
+            /*********************************/ -->
+
+    <footer class="container-fluid p-0 mt-4">
+        <div class="row pie gx-0">
+            <div class="col-sm-12 col-xl-7 pie__priv m-0 p-0 gx-0">
+                <div class="col-sm-12 p-3">
+                    <h3>Política de Privacidad</h3>
+                </div>
+                <div class="col-sm-12 p-3">
+                    <p>
+                        La información suministrada por el Usuario en el Sitio conformará
+                        una base de datos (en adelante, "Base de Datos") que será
+                        utilizada únicamente para la finalidad descripta, de acuerdo a los
+                        lineamientos de la Ley 25.326. La información consignada de
+                        ninguna manera será cedida a terceras personas ajenas al Sitio. El
+                        Usuario, podrá en cualquier momento ejercer los derechos de
+                        acceso, rectificación y supresión de los datos consignados en la
+                        Base de Datos y asimismo deberá comunicar cualquier cambio de los
+                        mismos al Sitio, a fin de mantener los mismos exactos y
+                        actualizados..
+                    </p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-2 pie__company p-3">
+                <h3>Blog</h3>
+                <nav>
+                    {% block menu_footer %}
+                    <ul>
+                        <li class="fot-item fot-item-active">
+                            <a href="{% url 'blog:index' %}">Inicio</a>
+                        </li>
+                        <li class="fot-item">
+                            <a href="{% url 'blog:nosotros' %}">Nosotros</a>
+                        </li>
+                        <li class="fot-item">
+                            <a href="{% url 'blog:contacto' %}">Contacto</a>
+                        </li>
+                    </ul>
+                    {% endblock menu_footer %}
+                </nav>
+
+            </div>
+            <div class="col-sm-6 col-xl-2 pie__redes p-3">
+                <h3>Redes Sociales</h3>
+                <nav>
+                    <ul>
+                        <li class="fot-item">
+                            <a href="#">Instagram</a>
+                        </li>
+                        <li class="fot-item">
+                            <a href="#">Facebook</a>
+                        </li>
+                        <li class="fot-item">
+                            <a href="#">Twitter</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="col-sm-12 pie__copyright text-center p-0">
+            <p>
+                Todos los derechos reservados © 2022 <b>Drixar</b>
+            </p>
+        </div>
+        </div>
+    </footer>
+    <script src="./js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/41bcea2ae3.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

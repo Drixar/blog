@@ -1,0 +1,132 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block titulo %} Listar Reseñas {% endblock titulo %}
+{% block titulo_pagina %} Listar Reseñas {% endblock titulo_pagina %}
+{% block menu_pagina %}
+<nav class="navbar navbar-expand-lg ">
+    <div class="container-fluid">
+        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="toggler-icon top-bar"></span>
+            <span class="toggler-icon middle-bar"></span>
+            <span class="toggler-icon bottom-bar"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="nav navbar-nav  py-2">
+                <li class="nav-item">
+                    <a href="{% url 'blog:index' %}">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'blog:listar_resena' %}">Reseñas</a>
+                </li>
+                <li class="nav-item active">
+                    <a href="{% url 'blog:listar_categoria' %}">Categorías</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'blog:listar_autor' %}">Autores</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'blog:nosotros' %}">Nosotros</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'blog:contacto' %}">Contacto</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock menu_pagina %}
+{% block sub_titulo_pagina %}
+Buscando por Categoría
+{% endblock sub_titulo_pagina %}
+{% block imagen_principal %} {% static '/assets/img/categoria2.jpg' %} {% endblock imagen_principal %}
+{% block contenido %}
+<div class="col-lg-9">
+    <!-- Nested row for non-featured blog posts-->
+    <div class="row justify-content-around">
+        {% if resenas %}
+        {% for resena in resenas %}
+        <!-- Blog post-->
+        <div class="card m-1 py-4 px-2 col-lg-5 resena">
+            <div class="row g-0">
+                <div class="col-md-5 px-2">
+                    <div class="small text-muted d-flex justify-content-start p-0">
+                        {{ resena.fecha_alta }}</div>
+                    <img src="{{ resena.imagen.url }}" alt="{{ resena.titulo }}"
+                        class="image-fluid rounded d-flex justify-content-start py-3"
+                        style='width: 100%' />
+                </div>
+                <div class="col-md-7 card-body px-2 py-0">
+                    <div class="d-flex justify-content-end p-0">
+                        <a href="{% url 'blog:buscar_categoria' resena.categoria_id %}" class="link-light">{{resena.categoria}}</a>
+                    </div>
+                    <h2 class="card-title h4 py-3">{{ resena.titulo }}</h2>
+                    <p class="card-text">{{ resena.resumen }}</p>
+                </div>
+                <div class="col-md-12 d-flex justify-content-between pt-3 px-2">
+                    <a href="{% url 'blog:buscar_autor' resena.autor_id %}" class="link-light">{{resena.autor}}</a>
+                    <a class="btn btn-danger"
+                        href="{% url 'blog:detalleResena' resena.slug %}">Leer →</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <!-- Pagination-->
+
+        <div class="row">
+            <nav class="col-lg-6 offset-lg-3 mt-4 d-flex justify-content-center">
+                <ul class="pagination">
+                    {% if resenas.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link prev"
+                            href="?pagina={{ resenas.previous_page_number }}">Previous</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link " href="#">Previous</a>
+                    </li>
+                    {% endif %}
+
+                    {% for i in resenas.paginator.page_range %}
+                    <li class=" page-item {% if resenas.number == i %}active{% endif %}">
+                        <a class="page-link" href="?pagina={{ i }}">{{ i }}</a>
+                    </li>
+                    {% endfor %}
+
+                    {% if resenas.has_next %}
+                    <li class="page-item">
+                        <a class="page-link next" a
+                            href="?pagina={{ resenas.next_page_number }}">Next</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                    {% endif %}
+
+                </ul>
+            </nav>
+        </div>
+        {% else %}
+        <h1>No existen Reseñas registradas</h1>
+        {% endif%}
+
+
+
+    </div>
+</div>
+{% endblock contenido %}
+{% block menu_footer %}
+<ul>
+    <li class="fot-item">
+        <a href="{% url 'blog:index' %}">Inicio</a>
+    </li>
+    <li class="fot-item">
+        <a href="{% url 'blog:nosotros' %}">Nosotros</a>
+    </li>
+    <li class="fot-item">
+        <a href="{% url 'blog:contacto' %}">Contacto</a>
+    </li>
+</ul>
+{% endblock menu_footer %}

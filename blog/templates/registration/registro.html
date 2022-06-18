@@ -2,87 +2,121 @@
 {% load static %}
 {% block titulo %} Registro {% endblock titulo %}
 {% block titulo_pagina %} Registro {% endblock titulo_pagina %}
+{% block menu_pagina %}
+<nav class="navbar navbar-expand-lg ">
+  <div class="container-fluid">
+    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="toggler-icon top-bar"></span>
+      <span class="toggler-icon middle-bar"></span>
+      <span class="toggler-icon bottom-bar"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="nav navbar-nav  py-2">
+        <li class="nav-item">
+          <a href="{% url 'blog:index' %}">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'blog:listar_resena' %}">Reseñas</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'blog:listar_categoria' %}">Categorías</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'blog:listar_autor' %}">Autores</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'blog:nosotros' %}">Nosotros</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'blog:contacto' %}">Contacto</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock menu_pagina %}
 {% block sub_titulo_pagina %}
-para acceder a los contenidos del sitio
+Formulario de Registro
 {% endblock sub_titulo_pagina %}
 {% block imagen_principal %} {% static 'assets/img/registro.jpg' %} {% endblock imagen_principal %}
 {% block contenido %}
 
-<section class="h-100 gradient-form" style="background-color: #eee;">
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-xl-10">
-        <div class="card rounded-3 text-black">
-          <div class="row g-0">
-            <div class="col-lg-6">
-              <div class="card-body p-md-5 mx-md-4">
-
-                <div class="text-center">
-                  <img src="{% static 'assets/img/logo.png' %}" style="width: 185px;" alt="logo">
-                  <h4 class="mt-1 mb-5 pb-1">Libros y Cosas</h4>
-                </div>
-
-                <form action="" method="post" class="text-center">
-                  {% csrf_token %}
-
-
-                  <!-- Username input -->
-                  <div class="form-outline mb-4">
-                    <input type="text" id="registerUsername" class="form-control" name="username" />
-                    <label class="form-label" for="registerUsername">Nombre de Usuario</label>
-                  </div>
-                  <!-- First Name input -->
-                  <div class="form-outline mb-4">
-                    <input type="text" id="registerFirst_name" class="form-control" name="first_name" />
-                    <label class="form-label" for="registerFirst_name">Nombre</label>
-                  </div>
-                  <div class="form-outline mb-4">
-                    <input type="text" id="registerLast_name" class="form-control" name="last_name" />
-                    <label class="form-label" for="registerLast_name">Apellido</label>
-                  </div>
-                  <!-- Email input -->
-                  <div class="form-outline mb-4">
-                    <input type="email" id="registerEmail" class="form-control" name="email"/>
-                    <label class="form-label" for="registerEmail">Email</label>
-                  </div>
-
-                  <!-- Password input -->
-                  <div class="form-outline mb-4">
-                    <input type="password" id="registerPassword" class="form-control" name="password1"/>
-                    <label class="form-label" for="registerPassword">Password</label>
-                  </div>
-
-                  <!-- Repeat Password input -->
-                  <div class="form-outline mb-4">
-                    <input type="password" id="registerRepeatPassword" class="form-control" name="password2"/>
-                    <label class="form-label" for="registerRepeatPassword">Repeat password</label>
-                  </div>
-
-                  <div class="py-4 pb-1 d-flex justify-content-center align-content-center">
-                    <!-- <button class="btn btn-danger btn-block fa-lg px-3 mx-3" 
-                      onclick="location.href='{% url 'blog:home' %}'"  type="submit">Volver</button> -->
-                    <!-- <a href="'{% url 'blog:home' %}'">Volver</a> -->
-                    <button class="btn btn-success btn-block fa-lg px-3 mx-3" type="submit">Registro</button>
-
-                  </div>
-
-                </form>
-
-              </div>
+<div class="col-lg-9">
+  <div class="card">
+    <div class="card-header">Libros y Cosas</div>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card-body p-md-5 mx-md-4">
+          <form action="" method="post">
+            {% csrf_token %}
+            <!-- Username input -->
+            <div class="form-outline mb-4">
+              <label class="form-label" for="registerUsername">Nombre de Usuario</label>
+              <input type="text" id="registerUsername" class="form-control" name="username"
+                placeholder="Su Nombre de Usuario" required />
             </div>
-            <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
-              <div class="text-black px-3 py-4 p-md-5 mx-md-4">
-                <h4 class="mb-4">We are more than just a company</h4>
-                <p class="small mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              </div>
+            <!-- First Name input -->
+            <div class="form-outline mb-4">
+              <label class="form-label" for="registerFirst_name">Nombre</label>
+              <input type="text" id="registerFirst_name" class="form-control" name="first_name" 
+              placeholder="Su Nombre" required />
             </div>
-          </div>
+            <div class="form-outline mb-4">
+              <label class="form-label" for="registerLast_name">Apellido</label>
+              <input type="text" id="registerLast_name" class="form-control" name="last_name" 
+              placeholder="Su Apellido" required />
+            </div>
+            <!-- Email input -->
+            <div class="form-outline mb-4">
+              <label class="form-label" for="registerEmail">Email</label>
+              <input type="email" id="registerEmail" class="form-control" name="email" 
+              placeholder="Su Correo Electrónico" required />
+            </div>
+
+            <!-- Password input -->
+            <div class="form-outline mb-4">
+              <label class="form-label" for="registerPassword">Password</label>
+              <input type="password" id="registerPassword" class="form-control" name="password1" 
+              placeholder="Ingrese su Contraseña" required />
+            </div>
+
+            <!-- Repeat Password input -->
+            <div class="form-outline mb-4">
+              <label class="form-label" for="registerRepeatPassword">Repeat password</label>
+              <input type="password" id="registerRepeatPassword" class="form-control" name="password2" 
+              placeholder="Repita su Contraseña" required />
+            </div>
+
+            <div class="py-4 pb-1 d-flex justify-content-center align-content-center">
+              <button class="btn btn-danger px-3 mx-3" type="submit">Registro</button>
+
+            </div>
+
+          </form>
+        </div>
+      </div>
+      <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
+        <div class="text-black px-3 py-4 p-md-5 mx-md-4">
+          <h4 class="mb-4">Somos más que un Blog de Libros</h4>
+          <p class="small mb-0">Amamos lo que leemos y queremos compartirlo contigo.</p>
         </div>
       </div>
     </div>
   </div>
-</section>
-
+</div>
 {% endblock contenido %}
+{% block menu_footer %}
+<ul>
+  <li class="fot-item">
+    <a href="{% url 'blog:index' %}">Inicio</a>
+  </li>
+  <li class="fot-item">
+    <a href="{% url 'blog:nosotros' %}">Nosotros</a>
+  </li>
+  <li class="fot-item">
+    <a href="{% url 'blog:contacto' %}">Contacto</a>
+  </li>
+</ul>
+{% endblock menu_footer %}

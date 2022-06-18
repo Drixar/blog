@@ -2,7 +2,129 @@
 {% load static %}
 {% block titulo %} Listar Reseñas {% endblock titulo %}
 {% block titulo_pagina %} Listar Reseñas {% endblock titulo_pagina %}
-{% block sub_titulo_pagina %} 
-Todas las Reseñas
+{% block menu_pagina %}
+<nav class="navbar navbar-expand-lg ">
+    <div class="container-fluid">
+        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="toggler-icon top-bar"></span>
+            <span class="toggler-icon middle-bar"></span>
+            <span class="toggler-icon bottom-bar"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="nav navbar-nav  py-2">
+                <li class="nav-item">
+                    <a href="{% url 'blog:index' %}">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'blog:listar_resena' %}">Reseñas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'blog:listar_categoria' %}">Categorías</a>
+                </li>
+                <li class="nav-item active">
+                    <a href="{% url 'blog:listar_autor' %}">Autores</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'blog:nosotros' %}">Nosotros</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'blog:contacto' %}">Contacto</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock menu_pagina %}
+{% block sub_titulo_pagina %}
+Todos los Autores
 {% endblock sub_titulo_pagina %}
-{% block imagen_principal %} {% static '/assets/img/post2.jpg' %} {% endblock imagen_principal %}
+{% block imagen_principal %} {% static '/assets/img/autor2.jpg' %} {% endblock imagen_principal %}
+{% block contenido %}
+{% if autores %}
+<div class="col-lg-9">
+    <div class="card">
+        <div class="card-header">Listado de Autores
+
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Fecha de Alta</th>
+                    <th>Activo</th>
+                    <th>Opciones</th>
+                </tr>
+                {% for autor in autores %}
+                <tr>
+                    <td> {{ autor.nombre }} </td>
+                    <td> {{ autor.fecha_alta }} </td>
+                    <td> {% if autor.estado %}
+                        SI
+                        {% else %}
+                        NO
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'blog:modificar_autor' autor.id %}" class="btn btn-warning btn-sm">Modificar</a>
+                        <a href="{% url 'blog:eliminar_autor' autor.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+
+
+            </table>
+            <div class="d-flex justify-content-end">
+                <a href="{% url 'blog:agregar_autor' %}" class="btn btn-success btn-sm text-end">Nuevo Autor</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <h1>No existen autores registradas</h1>
+    {% endif %}
+    <nav class="col-lg-6 offset-lg-3 mt-4 d-flex justify-content-center">
+        <ul class="pagination">
+            {% if autores.has_previous %}
+            <li class="page-item">
+                <a class="page-link prev" href="?pagina={{ autores.previous_page_number }}">Previous</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link " href="#">Previous</a>
+            </li>
+            {% endif %}
+
+            {% for i in autores.paginator.page_range %}
+            <li class=" page-item {% if autores.number == i %}active{% endif %}">
+                <a class="page-link" href="?pagina={{ i }}">{{ i }}</a>
+            </li>
+            {% endfor %}
+
+            {% if autores.has_next %}
+            <li class="page-item">
+                <a class="page-link next" a href="?pagina={{ autores.next_page_number }}">Next</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#">Next</a>
+            </li>
+            {% endif %}
+
+        </ul>
+    </nav>
+</div>
+{% endblock contenido %}
+{% block menu_footer %}
+<ul>
+    <li class="fot-item">
+        <a href="{% url 'blog:index' %}">Inicio</a>
+    </li>
+    <li class="fot-item">
+        <a href="{% url 'blog:nosotros' %}">Nosotros</a>
+    </li>
+    <li class="fot-item">
+        <a href="{% url 'blog:contacto' %}">Contacto</a>
+    </li>
+</ul>
+{% endblock menu_footer %}

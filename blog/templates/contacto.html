@@ -2,42 +2,88 @@
 {% load static %}
 {% block titulo %} Contacto {% endblock titulo %}
 {% block titulo_pagina %} Contacto {% endblock titulo_pagina %}
-{% block sub_titulo_pagina %} 
+{% block menu_pagina %}
+<nav class="navbar navbar-expand-lg ">
+  <div class="container-fluid">
+    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="toggler-icon top-bar"></span>
+      <span class="toggler-icon middle-bar"></span>
+      <span class="toggler-icon bottom-bar"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="nav navbar-nav  py-2">
+        <li class="nav-item">
+          <a href="{% url 'blog:index' %}">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'blog:listar_resena' %}">Reseñas</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'blog:listar_categoria' %}">Categorías</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'blog:listar_autor' %}">Autores</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'blog:nosotros' %}">Nosotros</a>
+        </li>
+        <li class="nav-item active">
+          <a href="{% url 'blog:contacto' %}">Contacto</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock menu_pagina %}
+{% block sub_titulo_pagina %}
 Estamos ansiosos por saber de vos
 {% endblock sub_titulo_pagina %}
 {% block imagen_principal %} {% static 'assets/img/contacto.jpg' %} {% endblock imagen_principal %}
 
 {% block contenido %}
-    <section id="contacto" class="contacto mb-5">
-      <div class="container" >
-        <div class="form mt-5">
-          <form action="" method="post" role="form" class="contacto-form ">
-            {% csrf_token %}
-            <div class="row">
-              <div class="form-group col-md-6">
-                <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Su Nombre" required>
-              </div>
-              <div class="form-group col-md-6">
-                <input type="email" class="form-control" name="email" id="email" placeholder="Su dirección de correo electrónico" required>
-              </div>
-            </div>
-            <div class="form-group">
-              <input type="text" class="form-control" name="asunto" id="asunto" placeholder="Asunto" required>
-            </div>
-            <div class="form-group">
-              <textarea class="form-control" name="mensaje" rows="5" placeholder="Mensaje" required></textarea>
-            </div>
-            <div class="my-3">
-              <div class="loading">Loading</div>
-              <div class="error-message"></div>
-              <div class="sent-message">Your message has been sent. Thank you!</div>
-            </div>
-            <div class="text-center"><button type="submit">Enviar Mensaje</button></div>
-          </form>
-        </div><!-- End Contact Form -->
-
-      </div>
-    </section>
+<div class="col-lg-9">
+  <div class="card">
+    <div class="card-header">Formulario de Contacto</div>
+    <div class="card-body">
+      <form action="" method="post" role="form" class="contacto-form ">
+        {% csrf_token %}
+        <div class="row">
+          <div class="form-group col-md-6">
+            <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Su Nombre" required>
+          </div>
+          <div class="form-group col-md-6">
+            <input type="email" class="form-control" name="email" id="email"
+              placeholder="Su dirección de correo electrónico" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control my-4" name="asunto" id="asunto" placeholder="Asunto" required>
+        </div>
+        <div class="form-group">
+          <textarea class="form-control" name="mensaje" rows="5" placeholder="Mensaje" required></textarea>
+        </div>
+        <div class="my-3">
+        </div>
+        <div class="text-center"><button type="submit" class="btn btn-danger">Enviar Mensaje</button></div>
+      </form>
+    </div>
+  </div>
+</div>
 
 
-  {% endblock contenido %}
+{% endblock contenido %}
+{% block menu_footer %}
+<ul>
+  <li class="fot-item ">
+    <a href="{% url 'blog:index' %}">Inicio</a>
+  </li>
+  <li class="fot-item">
+    <a href="{% url 'blog:nosotros' %}">Nosotros</a>
+  </li>
+  <li class="fot-item fot-item-active">
+    <a href="{% url 'blog:contacto' %}">Contacto</a>
+  </li>
+</ul>
+{% endblock menu_footer %}
