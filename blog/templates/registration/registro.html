@@ -42,59 +42,22 @@ Formulario de Registro
 {% endblock sub_titulo_pagina %}
 {% block imagen_principal %} {% static 'assets/img/registro.jpg' %} {% endblock imagen_principal %}
 {% block contenido %}
-
+{% load crispy_forms_tags %}
 <div class="col-lg-9">
   <div class="card">
     <div class="card-header">Libros y Cosas</div>
     <div class="row">
       <div class="col-lg-6">
         <div class="card-body p-md-5 mx-md-4">
-          <form action="" method="post">
+          <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <!-- Username input -->
-            <div class="form-outline mb-4">
-              <label class="form-label" for="registerUsername">Nombre de Usuario</label>
-              <input type="text" id="registerUsername" class="form-control" name="username"
-                placeholder="Su Nombre de Usuario" required />
+            {{user_form|crispy}}
+            {{profile_form|crispy}}
+            <div class="d-flex justify-content-center">
+                <input type="reset" value="Cancelar" class="btn btn-danger m-4" onclick="location.href='{% url 'blog:listar_autor' %}'">
+                <input type="submit" value="Guardar" class="btn btn-success  m-4">
             </div>
-            <!-- First Name input -->
-            <div class="form-outline mb-4">
-              <label class="form-label" for="registerFirst_name">Nombre</label>
-              <input type="text" id="registerFirst_name" class="form-control" name="first_name" 
-              placeholder="Su Nombre" required />
-            </div>
-            <div class="form-outline mb-4">
-              <label class="form-label" for="registerLast_name">Apellido</label>
-              <input type="text" id="registerLast_name" class="form-control" name="last_name" 
-              placeholder="Su Apellido" required />
-            </div>
-            <!-- Email input -->
-            <div class="form-outline mb-4">
-              <label class="form-label" for="registerEmail">Email</label>
-              <input type="email" id="registerEmail" class="form-control" name="email" 
-              placeholder="Su Correo Electrónico" required />
-            </div>
-
-            <!-- Password input -->
-            <div class="form-outline mb-4">
-              <label class="form-label" for="registerPassword">Password</label>
-              <input type="password" id="registerPassword" class="form-control" name="password1" 
-              placeholder="Ingrese su Contraseña" required />
-            </div>
-
-            <!-- Repeat Password input -->
-            <div class="form-outline mb-4">
-              <label class="form-label" for="registerRepeatPassword">Repeat password</label>
-              <input type="password" id="registerRepeatPassword" class="form-control" name="password2" 
-              placeholder="Repita su Contraseña" required />
-            </div>
-
-            <div class="py-4 pb-1 d-flex justify-content-center align-content-center">
-              <button class="btn btn-danger px-3 mx-3" type="submit">Registro</button>
-
-            </div>
-
-          </form>
+        </form>
         </div>
       </div>
       <div class="col-lg-6 d-flex align-items-center gradient-custom-2">

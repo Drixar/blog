@@ -10,8 +10,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500&display=swap" rel="stylesheet" />
-    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    <!-- <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet"> -->
     <link href="{% static 'assets/css/estilos.css' %}" rel="stylesheet">
     <title>Administración Nakamura - Clientes</title>
     <meta name="description" content="Administración de Consorcios, Condominios y Barrios Privados.">
@@ -19,7 +22,7 @@
     <meta name="robots" content="index">
     <meta name="author" content="Adrian Pablo Prado">
     <meta name="copyright" content="Adminstracion Nakamura">
-    <link rel="icon" href="../images/favicon.ico">
+    <link rel="icon" href="{% static 'assets/img/logo.png' %}">
 
 </head>
 
@@ -51,11 +54,12 @@
                         <div class="top__user">
                             <ul class="top__user__share">
                                 {% if user.is_authenticated %}
-                                <li><a href="#"> @{{ user.username }} </a></li>
+                                <li><img src="{{ user.profile.avatar.url }}" alt="Avatar" class="avatar_img rounded-circle"></li>
+                                <li><a href="{% url 'blog:modificar_usuario' %}"> @{{ user.username }} </a></li>
                                 <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
                                 {% else %}
-                                <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
-                                <li><a href="{% url 'blog:registro' %}">Registro</a></li>
+                                <li><a href="{% url 'blog:iniciar_sesion' %}">Iniciar Sesión</a></li>
+                                <li><a href="{% url 'blog:crear_usuario' %}">Registro</a></li>
                                 {% endif %}
 
                             </ul>
@@ -124,12 +128,26 @@
     </header>
 
     <main>
+        {% if messages %}
+        <div class="alert alert-dismissible fade show" role="alert">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} ">
+                <strong>Mensaje del sistema!</strong> {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% endif %}
         <section id="inicio">
 
 
             <section>
                 <div class="container  mt-4">
                     <div class="row">
+
                         {% block contenido %}
                         <div class="col-lg-9">
                             <!-- Nested row for non-featured blog posts-->
@@ -148,14 +166,17 @@
                                         </div>
                                         <div class="col-md-7 card-body px-2 py-0">
                                             <div class="small text-muted d-flex justify-content-end p-0">
-                                                <a href="{% url 'blog:buscar_categoria' resena.categoria_id %}" class="link-light">{{resena.categoria}}</a>
+                                                <a href="{% url 'blog:mostrar_categoria' resena.categoria_id %}"
+                                                    class="link-light">{{resena.categoria}}</a>
                                             </div>
                                             <h2 class="card-title h4 py-3">{{ resena.titulo }}</h2>
                                             <p class="card-text">{{ resena.resumen }}</p>
                                         </div>
                                         <div class="col-md-12 d-flex justify-content-between pt-3 px-2">
-                                            <a href="{% url 'blog:buscar_autor' resena.autor_id %}" class="link-light">{{resena.autor}}</a>
-                                            <a class="btn btn-danger" href="{% url 'blog:detalleResena' resena.slug %}">Leer →</a>
+                                            <a href="{% url 'blog:mostrar_autor' resena.autor.id %}"
+                                                class="link-light">{{resena.autor}}</a>
+                                            <a class="btn btn-danger"
+                                                href="{% url 'blog:detalleResena' resena.slug %}">Leer →</a>
                                         </div>
                                     </div>
                                 </div>
@@ -233,7 +254,8 @@
                                     <div class="row row-cols-2">
                                         {% for categoria in lista_categorias %}
                                         <div class="col">
-                                            <a href="{% url 'blog:buscar_categoria' categoria.id %}" class="link-light">{{categoria.nombre}}</a>
+                                            <a href="{% url 'blog:buscar_categoria' categoria.id %}"
+                                                class="link-light">{{categoria.nombre}}</a>
                                         </div>
                                         {% endfor %}
                                     </div>
@@ -249,7 +271,8 @@
                                     <div class="row row-cols-1">
                                         {% for autor in lista_autores %}
                                         <div class="col">
-                                            <a href="{% url 'blog:buscar_autor' autor.id %}" class="link-light">{{autor.nombre}}</a>
+                                            <a href="{% url 'blog:buscar_autor' autor.id %}"
+                                                class="link-light">{{autor.nombre}}</a>
                                         </div>
                                         {% endfor %}
                                     </div>
@@ -265,9 +288,12 @@
 
     </main>
 
+
     <!--/*********************************/
             /************FOOTER***************/
             /*********************************/ -->
+    <a href="#" class="scroll-top d-flex align-items-center justify-content-end"><i
+            class="bi bi-arrow-up-short  btn btn-light text-danger fs-1 me-3"></i></a>
 
     <footer class="container-fluid p-0 mt-4">
         <div class="row pie gx-0">
@@ -333,8 +359,18 @@
         </div>
         </div>
     </footer>
-    <script src="./js/bootstrap.bundle.min.js"></script>
-    <script src="https://kit.fontawesome.com/41bcea2ae3.js" crossorigin="anonymous"></script>
+
+    <!-- Vendor JS Files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+    <script src="{% static 'assets/vendor/ckeditor5/ckeditor.js' %}"></script>
+    <script src="{% static 'assets/vendor/ckeditor5/ckeditor-init.js' %}"></script>
+    <script src="{% static 'assets/vendor/ckeditor5/es.js' %}"></script>
+
+    <!-- Template Main JS File -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
 </body>
 
 </html>

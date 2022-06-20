@@ -59,13 +59,13 @@ Buscando por Autor
                 </div>
                 <div class="col-md-7 card-body px-2 py-0">
                     <div class="d-flex justify-content-end p-0">
-                        <a href="{% url 'blog:buscar_categoria' resena.categoria_id %}" class="link-light">{{resena.categoria}}</a>
+                        <a href="{% url 'blog:mostrar_categoria' resena.categoria_id %}" class="link-light">{{resena.categoria}}</a>
                     </div>
                     <h2 class="card-title h4 py-3">{{ resena.titulo }}</h2>
                     <p class="card-text">{{ resena.resumen }}</p>
                 </div>
                 <div class="col-md-12 d-flex justify-content-between pt-3 px-2">
-                    <a href="{% url 'blog:buscar_autor' resena.autor_id %}" class="link-light">{{resena.autor}}</a>
+                    <a href="{% url 'blog:mostrar_autor' resena.autor.id %}" class="link-light">{{resena.autor}}</a>
                     <a class="btn btn-danger"
                         href="{% url 'blog:detalleResena' resena.slug %}">Leer →</a>
                 </div>

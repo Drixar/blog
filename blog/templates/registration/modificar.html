@@ -1,0 +1,151 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block titulo %} Modificar Usuario {% endblock titulo %}
+{% block titulo_pagina %} Modificar Usuario {% endblock titulo_pagina %}
+{% block menu_pagina %}
+<nav class="navbar navbar-expand-lg ">
+  <div class="container-fluid">
+    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="toggler-icon top-bar"></span>
+      <span class="toggler-icon middle-bar"></span>
+      <span class="toggler-icon bottom-bar"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="nav navbar-nav  py-2">
+        <li class="nav-item">
+          <a href="{% url 'blog:index' %}">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'blog:listar_resena' %}">Reseñas</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'blog:listar_categoria' %}">Categorías</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'blog:listar_autor' %}">Autores</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'blog:nosotros' %}">Nosotros</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'blog:contacto' %}">Contacto</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock menu_pagina %}
+{% block sub_titulo_pagina %}
+Formulario de Registro
+{% endblock sub_titulo_pagina %}
+{% block imagen_principal %} {% static 'assets/img/registro.jpg' %} {% endblock imagen_principal %}
+{% block contenido %}
+
+<div class="col-lg-9">
+  <div class="card">
+    <div class="row my-3 p-3 justify-content-center">
+      <img class="rounded-circle account-img card-img-top" src="{{ user.profile.avatar.url }} "
+        style="cursor: pointer; height: 10rem; width: auto;" />
+    </div>
+    {% if user_form.errors %}
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      <div id="form_errors">
+        {% for key, value in user_form.errors.items %}
+        <strong>{{ value }}</strong>
+        {% endfor %}
+      </div>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endif %}
+    <div class="card-header">Libros y Cosas</div>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card-body p-md-5 mx-md-4">
+          <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Username input -->
+            <div class="form-outline mb-4">
+              <label class="form-label" for="registerUsername">Nombre de Usuario</label>
+              <!-- <input type="text" id="registerUsername" class="form-control" name="username"
+                placeholder="Su Nombre de Usuario" required value=""/> -->
+              {{ user_form.username }}
+            </div>
+            <!-- First Name input -->
+            <div class="form-outline mb-4">
+              <label class="form-label" for="registerFirst_name">Nombre</label>
+              <!-- <input type="text" id="registerFirst_name" class="form-control" name="first_name" placeholder="Su Nombre"
+                required /> -->
+              {{ user_form.first_name }}
+            </div>
+            <div class="form-outline mb-4">
+              <label class="form-label" for="registerLast_name">Apellido</label>
+              <!-- <input type="text" id="registerLast_name" class="form-control" name="last_name" placeholder="Su Apellido"
+                required /> -->
+              {{ user_form.last_name }}
+            </div>
+            <!-- Email input -->
+            <div class="form-outline mb-4">
+              <label class="form-label" for="registerEmail">Email</label>
+              <!-- <input type="email" id="registerEmail" class="form-control" name="email"
+                placeholder="Su Correo Electrónico" required /> -->
+              {{ user_form.email }}
+            </div>
+
+            <!-- Password input -->
+            <!-- <div class="form-outline mb-4">
+              <label class="form-label" for="registerPassword">Password</label>
+              <input type="password" id="registerPassword" class="form-control" name="password1"
+                placeholder="Ingrese su Contraseña" required />
+            </div> -->
+
+            <!-- Repeat Password input -->
+            <!-- <div class="form-outline mb-4">
+              <label class="form-label" for="registerRepeatPassword">Repeat password</label>
+              <input type="password" id="registerRepeatPassword" class="form-control" name="password2"
+                placeholder="Repita su Contraseña" required />
+            </div> -->
+            <div class="form-outline">
+              <a href="#">Change Password</a>
+              <hr>
+              <label class="small mb-1">Change Avatar:</label> {{ profile_form.avatar }}
+              <label class="small mb-1">Bio:</label> {{ profile_form.bio }}
+            </div>
+            <div class="py-4 pb-1 d-flex justify-content-center align-content-center">
+
+              <button class="btn btn-danger" onclick="location.href='{% url 'blog:index' %}'">Cancelar</button>
+              <button class="btn btn-success px-3 mx-3" type="submit">Guardar</button>
+
+            </div>
+
+          </form>
+        </div>
+      </div>
+      <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
+        <div class="text-black px-3 py-4 p-md-5 mx-md-4">
+          <h4 class="mb-4">Somos más que un Blog de Libros</h4>
+          <p class="small mb-0">Amamos lo que leemos y queremos compartirlo contigo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock contenido %}
+{% block menu_footer %}
+<ul>
+  <li class="fot-item">
+    <a href="{% url 'blog:index' %}">Inicio</a>
+  </li>
+  <li class="fot-item">
+    <a href="{% url 'blog:nosotros' %}">Nosotros</a>
+  </li>
+  <li class="fot-item">
+    <a href="{% url 'blog:contacto' %}">Contacto</a>
+  </li>
+</ul>
+{% endblock menu_footer %}

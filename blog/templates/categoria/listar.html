@@ -52,11 +52,16 @@ Todas las categorías
                     <th>Nombre</th>
                     <th>Fecha de Alta</th>
                     <th>Activo</th>
+                    {% if user.is_superuser %}
                     <th>Opciones</th>
+                    {% else %}
+                    <th>Imagen</th>
+                    {% endif %}
                 </tr>
                 {% for categoria in categorias %}
                 <tr>
-                    <td> {{ categoria.nombre }} </td>
+                    <td><a href="{% url 'blog:mostrar_categoria' categoria.id %}"
+                        class="link-light">{{ categoria.nombre }}</a></td>
                     <td> {{ categoria.fecha_alta }} </td>
                     <td> {% if categoria.estado %}
                         SI
@@ -65,17 +70,23 @@ Todas las categorías
                         {% endif %}
                     </td>
                     <td>
+                        {% if user.is_superuser %}
                         <a href="{% url 'blog:modificar_categoria' categoria.id %}" class="btn btn-warning btn-sm">modificar</a>
                         <a href="{% url 'blog:eliminar_categoria' categoria.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                        {% else %}
+                        <img src="{{ categoria.imagen.url }}" alt="Avatar" class="avatar_img rounded-circle">
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
 
 
             </table>
+            {% if user.is_superuser %}
             <div class="d-flex justify-content-end">
                 <a href="{% url 'blog:agregar_categoria' %}" class="btn btn-success btn-sm text-end">Nueva Categoría</a>
             </div>
+            {% endif %}
         </div>
     </div>
     {% else %}

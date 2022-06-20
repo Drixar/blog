@@ -3,14 +3,8 @@ from pyexpat import model
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Resena, Contacto, Autor, Categoria
+from .models import Resena, Contacto, Autor, Categoria,Profile
 from ckeditor.widgets import CKEditorWidget
-
-class CustomUserCreationForm(UserCreationForm):
-
-    class Meta:
-        model = User
-        fields =['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
 
 
 class FormularioResena(forms.ModelForm):
@@ -27,8 +21,37 @@ class FormularioCategoria(forms.ModelForm):
     class Meta:
         model = Categoria
         fields = '__all__'
-
 class FormularioAutor(forms.ModelForm):
     class Meta:
         model = Autor
         fields = '__all__'
+
+class CreateUserForm(UserCreationForm):
+    username = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    first_name = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    last_name = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    password1 = forms.CharField(max_length=50, required=True, widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    password2 = forms.CharField(max_length=50, required=True, widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    class Meta:
+        model = User
+        fields =['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
+class UpdateUserForm(forms.ModelForm):
+    username = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    first_name = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    last_name = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name']
+
+class CreateProfileForm(forms.ModelForm):
+    avatar = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))
+    class Meta:
+        model = Profile
+        fields = ['avatar']
+class UpdateProfileForm(forms.ModelForm):
+    avatar = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))
+    class Meta:
+        model = Profile
+        fields = ['avatar']

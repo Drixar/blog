@@ -1,0 +1,3 @@
+JamesO - https://stackoverflow.com/questions/9616569/django-cannot-assign-u1-staffprofile-user-must-be-a-user-instance
+    Que me explicó en un post de hace 10 años como grabar el registro de Usuario y el Avatar (OneToOneField).
+

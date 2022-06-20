@@ -1,7 +1,6 @@
 {% extends 'index.html' %}
 {% load static %}
-{% block titulo %} Listar Reseñas {% endblock titulo %}
-{% block titulo_pagina %} Listar Reseñas {% endblock titulo_pagina %}
+{% block titulo %} Detalle de Autor {% endblock titulo %}
 {% block menu_pagina %}
 <nav class="navbar navbar-expand-lg ">
     <div class="container-fluid">
@@ -37,68 +36,66 @@
     </div>
 </nav>
 {% endblock menu_pagina %}
+{% block titulo_pagina %} Listado de Reseñas {% endblock titulo_pagina %}
 {% block sub_titulo_pagina %}
-Todos los Autores
+Reseñas por Autor
 {% endblock sub_titulo_pagina %}
 {% block imagen_principal %} {% static '/assets/img/autor2.jpg' %} {% endblock imagen_principal %}
 {% block contenido %}
-{% if autores %}
-<div class="col-lg-9">
-    <div class="card">
-        <div class="card-header">Listado de Autores
 
+
+
+{% if resenas %}
+
+<div class="col-lg-9">
+    <div class="row g-0 card mb-4">
+        <h2 class="card-header h4 py-3">{{ autor.nombre }}</h2>
+        <div class="col-md-5 px-2">
+            <img src="{{ autor.imagen.url }}" alt="{{ resena.titulo }}"
+                class="image-fluid rounded d-flex justify-content-start py-3" style='width: 100%' />
         </div>
+        <div class="col-md-7 card-body px-2 py-0">
+            <p class="card-text">{{ autor.biografia }}</p>
+        </div>
+    </div>
+    <div class="card lista_resenas">
+        <div class="card-header">Obras de {{ autor.nombre }} </div>
         <div class="card-body">
             <table class="table table-hover">
                 <tr>
-                    <th>Nombre</th>
+                    <th>Título</th>
                     <th>Fecha de Alta</th>
                     <th>Activo</th>
-                    {% if user.is_superuser %}
-                    <th>Opciones</th>
-                    {% else %}
                     <th>Imagen</th>
-                    {% endif %}
                 </tr>
-                {% for autor in autores %}
+                {% for resena in resenas %}
                 <tr>
-                    <td><a href="{% url 'blog:mostrar_autor' autor.id %}"
-                        class="link-dark">{{autor.nombre}}</a></td>
-                    <td> {{ autor.fecha_alta }} </td>
-                    <td> {% if autor.estado %}
+                    <td><a class="link-dark"
+                        href="{% url 'blog:detalleResena' resena.slug %}">{{ resena.titulo }}</a> 
+                    </td>
+                    <td> {{ resena.fecha_alta }} </td>
+                    <td> {% if resena.estado %}
                         SI
                         {% else %}
                         NO
                         {% endif %}
                     </td>
                     <td>
-                        {% if user.is_superuser %}
-                        <a href="{% url 'blog:modificar_autor' autor.id %}" class="btn btn-warning btn-sm">Modificar</a>
-                        <a href="{% url 'blog:eliminar_autor' autor.id %}" class="btn btn-danger btn-sm">Eliminar</a>
-                        {% else %}
-                        <img src="{{ autor.imagen.url }}" alt="Avatar" class="avatar_img rounded-circle">
-                        {% endif %}
+                        <img src="{{ resena.imagen.url }}" alt="Avatar" class="avatar_img rounded-circle">
                     </td>
                 </tr>
                 {% endfor %}
-
-
             </table>
-            {% if user.is_superuser %}
-            <div class="d-flex justify-content-end">
-                <a href="{% url 'blog:agregar_autor' %}" class="btn btn-success btn-sm text-end">Nuevo Autor</a>
-            </div>
-            {% endif %}
         </div>
     </div>
     {% else %}
-    <h1>No existen autores registradas</h1>
+    <h1>No existen Reseñas registradas</h1>
     {% endif %}
     <nav class="col-lg-6 offset-lg-3 mt-4 d-flex justify-content-center">
         <ul class="pagination">
-            {% if autores.has_previous %}
+            {% if resenas.has_previous %}
             <li class="page-item">
-                <a class="page-link prev" href="?pagina={{ autores.previous_page_number }}">Previous</a>
+                <a class="page-link prev" href="?pagina={{ resenas.previous_page_number }}">Previous</a>
             </li>
             {% else %}
             <li class="page-item disabled">
@@ -106,15 +103,15 @@ Todos los Autores
             </li>
             {% endif %}
 
-            {% for i in autores.paginator.page_range %}
-            <li class=" page-item {% if autores.number == i %}active{% endif %}">
+            {% for i in resenas.paginator.page_range %}
+            <li class=" page-item {% if resenas.number == i %}active{% endif %}">
                 <a class="page-link" href="?pagina={{ i }}">{{ i }}</a>
             </li>
             {% endfor %}
 
-            {% if autores.has_next %}
+            {% if resenas.has_next %}
             <li class="page-item">
-                <a class="page-link next" a href="?pagina={{ autores.next_page_number }}">Next</a>
+                <a class="page-link next" a href="?pagina={{ resenas.next_page_number }}">Next</a>
             </li>
             {% else %}
             <li class="page-item disabled">

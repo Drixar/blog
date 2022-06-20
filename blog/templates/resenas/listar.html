@@ -53,11 +53,16 @@ Todas las Reseñas
                     <th>Autor</th>
                     <th>Fecha de Alta</th>
                     <th>Activo</th>
+                    {% if user.is_superuser %}
                     <th>Opciones</th>
+                    {% else %}
+                    <th>Imagen</th>
+                    {% endif %}
                 </tr>
                 {% for resena in resenas %}
                 <tr>
-                    <td> {{ resena.titulo }} </td>
+                    <td><a class="link-dark"
+                        href="{% url 'blog:detalleResena' resena.slug %}">{{ resena.titulo }}</a> </td>
                     <td> {{ resena.autor }} </td>
                     <td> {{ resena.fecha_alta }} </td>
                     <td> {% if resena.estado %}
@@ -67,17 +72,23 @@ Todas las Reseñas
                         {% endif %}
                     </td>
                     <td>
+                        {% if user.is_superuser %}
                         <a href="{% url 'blog:modificar_resena' resena.id %}" class="btn btn-warning btn-sm">modificar</a>
                         <a href="{% url 'blog:eliminar_resena' resena.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                        {% else %}
+                        <img src="{{ resena.imagen.url }}" alt="Avatar" class="avatar_img rounded-circle">
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
 
 
             </table>
+            {% if user.is_superuser %}
             <div class="d-flex justify-content-end">
                 <a href="{% url 'blog:agregar_resena' %}" class="btn btn-success btn-sm text-end">Nueva Reseña</a>
             </div>
+            {% endif %}
         </div>
     </div>
     {% else %}

@@ -1,9 +1,10 @@
 from distutils.command.upload import upload
-import email
+from PIL import Image
 from pyexpat import model
 from tabnanny import verbose
 from django.db import models
 from ckeditor.fields import RichTextField
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -23,6 +24,7 @@ class Tema(models.Model):
 class Categoria(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField('Nombre de la Categoría', max_length=30, null=False, blank=False, unique=True)
+    imagen = models.ImageField(upload_to='images', null=True, blank=True)
     estado = models.BooleanField('Activa/Inactiva',default=True)
     fecha_alta = models.DateField('Fecha de Creación', auto_now=False, auto_now_add=True)
 
@@ -117,4 +119,19 @@ class Contacto(models.Model):
 
     def __str__(self):
         return self.nombre 
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
+    avatar = models.ImageField(default='default.jpg', upload_to='profile_images')
+
+    def save(self, *args, **kwargs):
+        super().save()
+        img = Image.open(self.avatar.path)
+        if img.height > 100 or img.width > 100:
+            new_img = (100, 100)
+            img.thumbnail(new_img)
+            img.save(self.avatar.path)
+
+    def __str__(self):
+        return self.user.username
 

@@ -536,3 +536,12 @@ footer .pie__copyright p {
   
   color: rgba(255, 255, 255, 0.7) !important ;
 }
+
+.account-img {
+  height: 5rem !important;
+}
+
+.avatar_img {
+  height: 2.5rem !important;
+  width: 2.5rem !important;
+}
