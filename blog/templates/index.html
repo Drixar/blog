@@ -54,7 +54,8 @@
                         <div class="top__user">
                             <ul class="top__user__share">
                                 {% if user.is_authenticated %}
-                                <li><img src="{{ user.profile.avatar.url }}" alt="Avatar" class="avatar_img rounded-circle"></li>
+                                <li><img src="{{ user.profile.avatar.url }}" alt="Avatar"
+                                        class="avatar_img rounded-circle"></li>
                                 <li><a href="{% url 'blog:modificar_usuario' %}"> @{{ user.username }} </a></li>
                                 <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
                                 {% else %}
@@ -182,7 +183,6 @@
                                 </div>
                                 {% endfor %}
                                 <!-- Pagination-->
-
                                 <div class="row">
                                     <nav class="col-lg-6 offset-lg-3 mt-4 d-flex justify-content-center">
                                         <ul class="pagination">
@@ -220,11 +220,9 @@
                                 {% else %}
                                 <h1>No existen Reseñas registradas</h1>
                                 {% endif%}
-
-
-
                             </div>
                         </div>
+
                         {% endblock contenido %}
                         <!-- Side widgets-->
                         <div class="col-lg-3 ">

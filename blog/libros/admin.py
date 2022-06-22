@@ -21,6 +21,10 @@ class Post_resource(resources.ModelResource):
     class Meta:
         model = Post
 
+class Comentario_resource(resources.ModelResource):
+    class Meta:
+        model = Comentario
+
 class Autor_resource(resources.ModelResource):
     class Meta:
         model = Autor
@@ -62,6 +66,11 @@ class Resena_admin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('titulo', 'autor', 'categoria', 'fecha_alta')
     resource_class = Resena_resource
 
+class Comentario_admin(ImportExportModelAdmin, admin.ModelAdmin):
+    search_fields = ['titulo', 'mensaje']
+    list_display = ('titulo', 'usuario', 'resena', 'fecha_alta')
+    resource_class = Comentario_resource
+
 class Contacto_admin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ['nombre', 'email', 'mensaje']
     list_display = ('nombre', 'email', 'mensaje')
@@ -75,3 +84,4 @@ admin.site.register(Autor, Autor_admin)
 admin.site.register(Resena, Resena_admin)
 admin.site.register(Contacto, Contacto_admin)
 admin.site.register(Profile)
+admin.site.register(Comentario, Comentario_admin)

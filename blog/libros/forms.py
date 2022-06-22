@@ -3,7 +3,7 @@ from pyexpat import model
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Resena, Contacto, Autor, Categoria,Profile
+from .models import Resena, Contacto, Autor, Categoria,Profile, Comentario, Usuario
 from ckeditor.widgets import CKEditorWidget
 
 
@@ -12,6 +12,16 @@ class FormularioResena(forms.ModelForm):
         model = Resena
         fields = '__all__'
 
+class FormularioComentario(forms.ModelForm):
+    titulo = forms.CharField(max_length=50, required=True, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': "Ingrese el título para su comentario"}))
+    mensaje = forms.CharField(max_length=300, required=True, widget=forms.Textarea(
+        attrs={'class': 'form-control','rows': 3, 'placeholder': "Ingrese el Título su comentario"}))
+    usuario = forms.CharField(max_length=50, widget=forms.HiddenInput(attrs={'class': 'form-control'}))
+    resena = forms.CharField(widget=forms.HiddenInput(attrs={'class': 'form-control'}))
+    class Meta:
+        model = Comentario
+        fields = '__all__'
 class FormularioContacto(forms.ModelForm):
     class Meta:
         model = Contacto

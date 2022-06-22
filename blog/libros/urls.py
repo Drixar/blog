@@ -28,5 +28,6 @@ urlpatterns = [
     path('listar-resena/', listar_resena, name= 'listar_resena'),
     path('modificar-resena/<id>/', modificar_resena, name= 'modificar_resena'),
     path('eliminar-resena/<id>/', eliminar_resena, name= 'eliminar_resena'),
+    path('agregar-comentario/<slug>/', agregar_comentario, name= 'agregar_comentario'),
     path('<slug:slug>/', detalleResena, name = 'detalleResena'),
 ]

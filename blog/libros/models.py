@@ -106,6 +106,22 @@ class Resena(models.Model):
     def __str__(self):
         return self.titulo 
 
+class Comentario(models.Model):
+    id = models.AutoField(primary_key=True)
+    titulo = models.CharField('Título del Comentario', max_length=50, null=False, blank=False)
+    mensaje = RichTextField('Mensaje', null=False, blank=False)
+    usuario = models.CharField('Usuario', max_length=50, null=False, blank=False)
+    resena = models.IntegerField('Resena')
+    estado = models.BooleanField('Publicado/No Publicado',default=True)
+    fecha_alta = models.DateField('Fecha de Creación', auto_now=False, auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Comentario'
+        verbose_name_plural = 'Comentarios'
+
+    def __str__(self):
+        return self.titulo 
+
 class Contacto(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField('Nombre del Remitente', max_length=50, null=False, blank=False, unique=True)

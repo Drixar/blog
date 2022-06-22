@@ -2,10 +2,11 @@ from ast import AugStore
 from django.shortcuts import redirect, render, get_object_or_404
 from django.template import loader
 from django.http import HttpResponse, Http404
-from .forms import CreateUserForm, CreateProfileForm, UserCreationForm, FormularioContacto, FormularioResena, FormularioAutor, FormularioCategoria, UpdateUserForm, UpdateProfileForm
+from platformdirs import user_cache_dir
+from .forms import *
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from .models import Autor, Categoria, Resena
+from .models import Autor, Categoria, Resena, Comentario
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -19,12 +20,47 @@ def detalleResena(request, slug):
     lista_categorias = Categoria.objects.filter(estado = True).order_by('nombre')[:20]
     lista_autores = Autor.objects.filter(estado = True).order_by('nombre')[:20]
     resena = get_object_or_404(Resena, slug=slug)
+    lista_comentarios = Comentario.objects.filter(estado = True, resena = resena.id ).order_by('-fecha_alta')[:20]
+    comentarios =  FormularioComentario(initial={'resena': resena.id, 'usuario': request.user})
     data = {
         'resena': resena,
         'lista_categorias': lista_categorias, 
-        'lista_autores':lista_autores
+        'lista_autores': lista_autores,
+        'lista_comentarios': lista_comentarios,
+        'comentarios': comentarios
         }
+    if request.method == 'POST':
+        comentarios =  FormularioComentario(data=request.POST)
+        if comentarios.is_valid():
+            comentarios.save()
+            print('pasó')
+        else:
+            print('no pasó')
     return render(request, 'single-post.html', data)
+
+def agregar_comentario(request, slug):
+    lista_categorias = Categoria.objects.filter(estado = True).order_by('nombre')[:20]
+    lista_autores = Autor.objects.filter(estado = True).order_by('nombre')[:20]
+    resena = get_object_or_404(Resena, slug=slug)
+    lista_comentarios = Comentario.objects.filter(estado = True, resena = resena.id ).order_by('-fecha_alta')[:20]
+    comentarios =  FormularioComentario(request, initial={'resena': resena_id, 'usuario': request.user})
+    data = {
+        'resena': resena,
+        'lista_categorias': lista_categorias, 
+        'lista_autores': lista_autores,
+        'lista_comentarios': lista_comentarios,
+        'comentarios': comentarios
+        }
+    if request.method == 'POST':
+        comentarios =  FormularioComentario(request.POST)
+        # comentarios.resena = resena
+        if comentarios.is_valid():
+            # comentarios.save()
+            messages.success(request,"Comentario publicado correctamente")
+            return render(request,"blog:detalleResena",data)
+        else:
+            data['comentarios'] = comentarios 
+    return render(request, 'agregar_comentario.html', data)
 
 def noticias(request):
     return render(request, 'noticias.html')
@@ -467,7 +503,6 @@ def crear_usuario(request):
             # profile_form = UpdateProfileForm(request.POST, request.FILES)
             user = authenticate(username=user_form.cleaned_data["username"], password=user_form.cleaned_data["password1"])
             login(request, user)
-            print(user.id)
             user = User.objects.get(id=user.id)
             profile_form.instance.user = user
             profile_form.save()

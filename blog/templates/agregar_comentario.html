@@ -57,7 +57,7 @@
 {% block contenido %}
 
 <div class="col-lg-9">
-  <div class="card">
+  <!-- <div class="card">
     <div class="card-header">{{ resena.titulo }}</div>
     <div class="card-body">
       <div class="row card-body">
@@ -70,8 +70,8 @@
         </div>
         <div class="col-md-7 card-body px-2 py-0">
           <div class="d-flex justify-content-end p-0">
-            <a href="{% url 'blog:mostrar_categoria' resena.categoria_id %}" class="link-light">{{ resena.categoria
-              }}</a>
+            <a href="{% url 'blog:mostrar_categoria' resena.categoria_id %}"
+            class="link-light">{{ resena.categoria }}</a>
           </div>
           <p class="card-text">{{ resena.contenido | safe }}</p>
         </div>
@@ -83,56 +83,8 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="card mt-4">
-    <div class="card-header">Comentarios</div>
-    {% if lista_comentarios %}
-    <!-- <div class="row card my-2">
-      <div class="col-lg-10"> -->
-        {% for comentario in lista_comentarios %}
-        <div class="row card mt-1 mx-1">
-          <div class="col card-header">@{{comentario.usuario}} - {{comentario.fecha_alta}} </div>
-          <div class="col card-body">
-            <h6 class="text-danger border-bottom border-danger">{{comentario.titulo}}</h6>
-            <p>{{comentario.mensaje|safe}}</p>
-          </div>
-        </div>
-        {% endfor %}
-      <!-- </div>
-    </div> -->
-    {% else %}
-    <div class="card-body">
-      <h5>No existen comentarios para esta publicación</h5>
-    </div>
-    {% endif %}
-
-    {% if user.is_authenticated %}
-    {% load crispy_forms_tags %}
-    <div class="card mt-1 mx-1">
-      <div class="card-header">@{{ user }} Deja un Comentario</div>
-      <div class="col-lg-12">
-        <div class="row card-body px-4">
-          <form action="" method="post">
-            {% csrf_token %}
-            {{comentarios.media}}
-            {{comentarios|crispy}}
-            <div class="d-flex justify-content-end m-4">
-              <input type="submit" value="Enviar mensaje" class="btn btn-success  m-4">
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    {% else %}
-    <div class="card-body">
-      <h5>Debe iniciar sesión para publicar comentarios</h5>
-    </div>
-    {% endif %}
-  </div>
-
-  <!-- {% if user.is_authenticated %}
+  </div> -->
+  <!-- {% if user.is_authenticated %} -->
   {% load crispy_forms_tags %}
   <div class="card mt-5">
     <div class="card-header">@{{ user }} Deja un Comentario</div>
@@ -142,32 +94,47 @@
           {% csrf_token %}
           {{comentarios.media}}
           {{comentarios|crispy}}
-          <div class="d-flex justify-content-center">
-            <input type="submit" value="Guardar" class="btn btn-success  m-4">
+          <div class="d-flex justify-content-end m-4">
+            <input type="submit" value="Enviar mensaje" class="btn btn-success  m-4">
           </div>
-        </form>  
+        </form>
       </div>
     </div>
   </div>
-  {% endif %} -->
+  <!-- {% endif %} -->
+
+  <!-- <div class="card mt-4">
+    <div class="card-header">Comentarios</div>
+    {% if lista_comentarios %}
+    <div class="row card my-2">
+      <div class="col-lg-10">
+        <div class="card-header">@{{ user }} Deja un Comentario</div>
+      </div>
+      {% else %}
+      <div class="card-body">
+        <p>No existen comentarios para esta publicación</p>
+      </div>
+      {% endif %}
+      <div class="d-flex justify-content-end pt-3 m-4">
+        <button class="btn btn-danger" onclick="{% url 'blog:detalleResena' resena.slug %}">Agregar comentario</button>
+      </div>
+    </div>
+  </div> -->
 
 
-</div>
 
+  {% endblock contenido %}
 
-
-{% endblock contenido %}
-
-{% block menu_footer %}
-<ul>
-  <li class="fot-item">
-    <a href="{% url 'blog:index' %}">Inicio</a>
-  </li>
-  <li class="fot-item">
-    <a href="{% url 'blog:nosotros' %}">Nosotros</a>
-  </li>
-  <li class="fot-item">
-    <a href="{% url 'blog:contacto' %}">Contacto</a>
-  </li>
-</ul>
-{% endblock menu_footer %}
+  {% block menu_footer %}
+  <ul>
+    <li class="fot-item">
+      <a href="{% url 'blog:index' %}">Inicio</a>
+    </li>
+    <li class="fot-item">
+      <a href="{% url 'blog:nosotros' %}">Nosotros</a>
+    </li>
+    <li class="fot-item">
+      <a href="{% url 'blog:contacto' %}">Contacto</a>
+    </li>
+  </ul>
+  {% endblock menu_footer %}
