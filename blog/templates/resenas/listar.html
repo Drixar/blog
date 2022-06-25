@@ -42,11 +42,11 @@ Todas las Reseñas
 {% endblock sub_titulo_pagina %}
 {% block imagen_principal %} {% static '/assets/img/post2.jpg' %} {% endblock imagen_principal %}
 {% block contenido %}
-{% if resenas %}
 <div class="col-lg-9">
     <div class="card lista_resenas">
         <div class="card-header">Listado de Reseñas</div>
         <div class="card-body">
+            {% if resenas %}
             <table class="table table-hover">
                 <tr>
                     <th>Título</th>
@@ -89,11 +89,11 @@ Todas las Reseñas
                 <a href="{% url 'blog:agregar_resena' %}" class="btn btn-success btn-sm text-end">Nueva Reseña</a>
             </div>
             {% endif %}
+            {% else %}
+            <p>No existen Reseñas registradas</p>
+            {% endif %}
         </div>
     </div>
-    {% else %}
-    <h1>No existen Reseñas registradas</h1>
-    {% endif %}
     <nav class="col-lg-6 offset-lg-3 mt-4 d-flex justify-content-center">
         <ul class="pagination">
             {% if resenas.has_previous %}

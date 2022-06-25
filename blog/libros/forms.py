@@ -8,6 +8,12 @@ from ckeditor.widgets import CKEditorWidget
 
 
 class FormularioResena(forms.ModelForm):
+    resumen = forms.CharField(max_length=300, required=True, widget=forms.Textarea(
+        attrs={'class': 'form-control','rows': 3, 'placeholder': "Ingrese el Resumen de la Reseña"}))
+    titulo = forms.CharField(max_length=50, required=True, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': "Ingrese el título para su Reseña"}))
+    slug = forms.SlugField(max_length=50, required=True, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': "Ingrese el texto para el Slug de la Reseña"}))
     class Meta:
         model = Resena
         fields = '__all__'

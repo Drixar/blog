@@ -514,6 +514,18 @@ def crear_usuario(request):
 
 @login_required
 def modificar_usuario(request):
+    lista_categorias = Categoria.objects.filter(estado = True).order_by('nombre')[:20]
+    lista_autores = Autor.objects.filter(estado = True).order_by('nombre')[:20]
+    queryset = request.GET.get("buscar")
+    if queryset:
+        resenas = Resena.objects.filter(
+            Q(titulo__icontains = queryset) |
+            Q(contenido__icontains = queryset)
+        )
+        paginator = Paginator(resenas,4)
+        pagina = request.GET.get('pagina')
+        resenas = paginator.get_page(pagina)
+        return render(request, 'resenas/buscar.html',{'resenas': resenas, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)
         profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
@@ -521,10 +533,10 @@ def modificar_usuario(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            messages.success(request, 'Your profile is updated successfully')
+            messages.success(request, 'Tu perfil se modificó correctamente')
             return redirect(to='blog:index')
     else:
         user_form = UpdateUserForm(instance=request.user)
         profile_form = UpdateProfileForm(instance=request.user.profile)
 
-    return render(request, 'registration/modificar.html', {'user_form': user_form, 'profile_form': profile_form})
+    return render(request, 'registration/modificar.html', {'user_form': user_form, 'profile_form': profile_form, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})

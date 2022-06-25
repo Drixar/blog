@@ -2,3 +2,5 @@ Django==4.0.4
 django_ckeditor==6.4.2
 django_import_export==2.8.0
 import_export==0.2.67.dev6
+Pillow==9.1.1
+platformdirs==2.5.1

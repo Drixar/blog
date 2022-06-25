@@ -42,58 +42,56 @@ Todos los Autores
 {% endblock sub_titulo_pagina %}
 {% block imagen_principal %} {% static '/assets/img/autor2.jpg' %} {% endblock imagen_principal %}
 {% block contenido %}
-{% if autores %}
 <div class="col-lg-9">
     <div class="card">
-        <div class="card-header">Listado de Autores
-
-        </div>
+        <div class="card-header">Listado de Autores</div>
         <div class="card-body">
-            <table class="table table-hover">
-                <tr>
-                    <th>Nombre</th>
-                    <th>Fecha de Alta</th>
-                    <th>Activo</th>
-                    {% if user.is_superuser %}
-                    <th>Opciones</th>
-                    {% else %}
-                    <th>Imagen</th>
-                    {% endif %}
-                </tr>
-                {% for autor in autores %}
-                <tr>
-                    <td><a href="{% url 'blog:mostrar_autor' autor.id %}"
-                        class="link-dark">{{autor.nombre}}</a></td>
-                    <td> {{ autor.fecha_alta }} </td>
-                    <td> {% if autor.estado %}
-                        SI
-                        {% else %}
-                        NO
-                        {% endif %}
-                    </td>
-                    <td>
+            {% if autores %}
+                <table class="table table-hover">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Fecha de Alta</th>
+                        <th>Activo</th>
                         {% if user.is_superuser %}
-                        <a href="{% url 'blog:modificar_autor' autor.id %}" class="btn btn-warning btn-sm">Modificar</a>
-                        <a href="{% url 'blog:eliminar_autor' autor.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                        <th>Opciones</th>
                         {% else %}
-                        <img src="{{ autor.imagen.url }}" alt="Avatar" class="avatar_img rounded-circle">
+                        <th>Imagen</th>
                         {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
+                    </tr>
+                    {% for autor in autores %}
+                    <tr>
+                        <td><a href="{% url 'blog:mostrar_autor' autor.id %}"
+                            class="link-dark">{{autor.nombre}}</a></td>
+                        <td> {{ autor.fecha_alta }} </td>
+                        <td> {% if autor.estado %}
+                            SI
+                            {% else %}
+                            NO
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if user.is_superuser %}
+                            <a href="{% url 'blog:modificar_autor' autor.id %}" class="btn btn-warning btn-sm">Modificar</a>
+                            <a href="{% url 'blog:eliminar_autor' autor.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                            {% else %}
+                            <img src="{{ autor.imagen.url }}" alt="Avatar" class="avatar_img rounded-circle">
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
 
 
-            </table>
-            {% if user.is_superuser %}
-            <div class="d-flex justify-content-end">
-                <a href="{% url 'blog:agregar_autor' %}" class="btn btn-success btn-sm text-end">Nuevo Autor</a>
-            </div>
+                </table>
+                {% if user.is_superuser %}
+                <div class="d-flex justify-content-end">
+                    <a href="{% url 'blog:agregar_autor' %}" class="btn btn-success btn-sm text-end">Nuevo Autor</a>
+                </div>
+                {% endif %}
+            {% else %}
+            <p>No existen autores registrados</p>
             {% endif %}
         </div>
     </div>
-    {% else %}
-    <h1>No existen autores registradas</h1>
-    {% endif %}
     <nav class="col-lg-6 offset-lg-3 mt-4 d-flex justify-content-center">
         <ul class="pagination">
             {% if autores.has_previous %}

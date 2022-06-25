@@ -45,19 +45,20 @@ Reseñas por Autor
 
 
 
-{% if resenas %}
-
 <div class="col-lg-9">
     <div class="row g-0 card mb-4">
         <h2 class="card-header h4 py-3">{{ autor.nombre }}</h2>
-        <div class="col-md-5 px-2">
-            <img src="{{ autor.imagen.url }}" alt="{{ resena.titulo }}"
-                class="image-fluid rounded d-flex justify-content-start py-3" style='width: 100%' />
-        </div>
-        <div class="col-md-7 card-body px-2 py-0">
-            <p class="card-text">{{ autor.biografia }}</p>
+        <div class="row">
+            <div class="col-lg-4 px-2">
+                <img src="{{ autor.imagen.url }}" alt="{{ resena.titulo }}"
+                    class="image-fluid rounded d-flex justify-content-start py-3" style='width: 100%' />
+            </div>
+            <div class="col-lg-6 card-body px-2 py-0">
+                <p class="card-text">{{ autor.biografia|safe }}</p>
+            </div>
         </div>
     </div>
+    {% if resenas %}
     <div class="card lista_resenas">
         <div class="card-header">Obras de {{ autor.nombre }} </div>
         <div class="card-body">
@@ -70,8 +71,7 @@ Reseñas por Autor
                 </tr>
                 {% for resena in resenas %}
                 <tr>
-                    <td><a class="link-dark"
-                        href="{% url 'blog:detalleResena' resena.slug %}">{{ resena.titulo }}</a> 
+                    <td><a class="link-dark" href="{% url 'blog:detalleResena' resena.slug %}">{{ resena.titulo }}</a>
                     </td>
                     <td> {{ resena.fecha_alta }} </td>
                     <td> {% if resena.estado %}
@@ -89,6 +89,13 @@ Reseñas por Autor
         </div>
     </div>
     {% else %}
+    <div class="card lista_autores p-0 ">
+        <div class="card-header">Reseñas de {{ autor.nombre }}</div>
+        <div class="card-body">
+            <p>No existen Reseñas registradas</p>
+        </div>
+    </div>
+
     <h1>No existen Reseñas registradas</h1>
     {% endif %}
     <nav class="col-lg-6 offset-lg-3 mt-4 d-flex justify-content-center">
