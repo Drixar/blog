@@ -12,8 +12,7 @@ class FormularioResena(forms.ModelForm):
         attrs={'class': 'form-control','rows': 3, 'placeholder': "Ingrese el Resumen de la Reseña"}))
     titulo = forms.CharField(max_length=50, required=True, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': "Ingrese el título para su Reseña"}))
-    slug = forms.SlugField(max_length=50, required=True, widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': "Ingrese el texto para el Slug de la Reseña"}))
+    slug = forms.SlugField(max_length=50, required=False, widget=forms.HiddenInput(attrs={'class': 'form-control'}))
     class Meta:
         model = Resena
         fields = '__all__'
@@ -38,6 +37,8 @@ class FormularioCategoria(forms.ModelForm):
         model = Categoria
         fields = '__all__'
 class FormularioAutor(forms.ModelForm):
+    
+    slug = forms.SlugField(max_length=50, required=False, widget=forms.HiddenInput(attrs={'class': 'form-control'}))
     class Meta:
         model = Autor
         fields = '__all__'

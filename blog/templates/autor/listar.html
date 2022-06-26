@@ -47,80 +47,112 @@ Todos los Autores
         <div class="card-header">Listado de Autores</div>
         <div class="card-body">
             {% if autores %}
-                <table class="table table-hover">
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Fecha de Alta</th>
-                        <th>Activo</th>
-                        {% if user.is_superuser %}
-                        <th>Opciones</th>
+            <table class="table table-hover">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Fecha de Alta</th>
+                    <th>Activo</th>
+                    {% if user.is_superuser %}
+                    <th>Opciones</th>
+                    {% else %}
+                    <th>Imagen</th>
+                    {% endif %}
+                </tr>
+                {% for autor in autores %}
+                <tr>
+                    <td><a href="{% url 'blog:mostrar_autor' autor.id %}" class="link-dark">{{autor.nombre}}</a></td>
+                    <td> {{ autor.fecha_alta }} </td>
+                    <td> {% if autor.estado %}
+                        SI
                         {% else %}
-                        <th>Imagen</th>
+                        NO
                         {% endif %}
-                    </tr>
-                    {% for autor in autores %}
-                    <tr>
-                        <td><a href="{% url 'blog:mostrar_autor' autor.id %}"
-                            class="link-dark">{{autor.nombre}}</a></td>
-                        <td> {{ autor.fecha_alta }} </td>
-                        <td> {% if autor.estado %}
-                            SI
-                            {% else %}
-                            NO
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if user.is_superuser %}
-                            <a href="{% url 'blog:modificar_autor' autor.id %}" class="btn btn-warning btn-sm">Modificar</a>
-                            <a href="{% url 'blog:eliminar_autor' autor.id %}" class="btn btn-danger btn-sm">Eliminar</a>
-                            {% else %}
-                            <img src="{{ autor.imagen.url }}" alt="Avatar" class="avatar_img rounded-circle">
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
+                    </td>
+                    <td>
+                        {% if user.is_superuser %}
+                        <a href="{% url 'blog:modificar_autor' autor.id %}" class="btn btn-warning btn-sm">Modificar</a>
+                        <a href="{% url 'blog:eliminar_autor' autor.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                        {% else %}
+                        <img src="{{ autor.imagen.url }}" alt="Avatar" class="avatar_img rounded-circle">
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
 
 
-                </table>
-                {% if user.is_superuser %}
-                <div class="d-flex justify-content-end">
-                    <a href="{% url 'blog:agregar_autor' %}" class="btn btn-success btn-sm text-end">Nuevo Autor</a>
-                </div>
-                {% endif %}
+            </table>
+            {% if user.is_superuser %}
+            <div class="d-flex justify-content-end">
+                <a href="{% url 'blog:agregar_autor' %}" class="btn btn-success btn-sm text-end">Nuevo Autor</a>
+            </div>
+            {% endif %}
             {% else %}
             <p>No existen autores registrados</p>
             {% endif %}
         </div>
     </div>
     <nav class="col-lg-6 offset-lg-3 mt-4 d-flex justify-content-center">
+
         <ul class="pagination">
             {% if autores.has_previous %}
             <li class="page-item">
-                <a class="page-link prev" href="?pagina={{ autores.previous_page_number }}">Previous</a>
+                <a class="page-link prev" href="?pagina={{ autores.previous_page_number }}">Anterior</a>
             </li>
             {% else %}
             <li class="page-item disabled">
-                <a class="page-link " href="#">Previous</a>
+                <a class="page-link " href="#">Anterior</a>
             </li>
             {% endif %}
 
-            {% for i in autores.paginator.page_range %}
-            <li class=" page-item {% if autores.number == i %}active{% endif %}">
-                <a class="page-link" href="?pagina={{ i }}">{{ i }}</a>
-            </li>
-            {% endfor %}
-
-            {% if autores.has_next %}
+            {% if autores.number|add:'-3' > 1 %}
             <li class="page-item">
-                <a class="page-link next" a href="?pagina={{ autores.next_page_number }}">Next</a>
+                <a class="page-link" href="?pagina=1">1</a>
             </li>
-            {% else %}
-            <li class="page-item disabled">
-                <a class="page-link" href="#">Next</a>
+            <li class="page-item">
+                <a class="page-link" href="?pagina={{ autores.number|add:'-3' }}">&hellip;</a>
+            </li>
+            {% elif autores.number|add:'-3' == 1 %}
+            <li class="page-item">
+                <a class="page-link" href="?pagina=1">1</a>
             </li>
             {% endif %}
-
+            {% for i in autores.paginator.page_range %}
+            {% if autores.number == i %}
+            <li class="page-item active">
+                <a class="page-link" href="?pagina={{i}}">{{i}}</a>
+            </li>
+            {% elif i > autores.number|add:'-3' and i < autores.number|add:'3' %} <li class="page-item">
+                <a class="page-link" href="?pagina={{ i }}">{{ i }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% if autores.paginator.num_pages > autores.number|add:'3' %}
+                <li class="page-item">
+                    <a class="page-link" href="?pagina={{ autores.number|add:'3' }}">&hellip;</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?pagina={{ autores.paginator.num_pages }}">
+                        {{ autores.paginator.num_pages }}</a>
+                </li>
+                {% elif autores.paginator.num_pages == autores.number|add:'3' %}
+                <li class="page-item">
+                    <a class="page-link" href="?pagina={{ autores.paginator.num_pages }}">
+                        {{ autores.paginator.num_pages }}
+                    </a>
+                </li>
+                {% endif %}
+                {% if autores.has_next %}
+                <li class="page-item">
+                    <a class="page-link next" href="?pagina={{ autores.next_page_number }}">Siguiente</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Siguiente</a>
+                </li>
+                {% endif %}
         </ul>
+
+
     </nav>
 </div>
 {% endblock contenido %}

@@ -80,7 +80,8 @@ def nosotros(request):
         paginator = Paginator(resenas,4)
         pagina = request.GET.get('pagina')
         resenas = paginator.get_page(pagina)
-        return render(request, 'resenas/buscar.html',{'resenas': resenas, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
+        page_range = paginator.get_elided_page_range(number=pagina)
+        return render(request, 'resenas/buscar.html',{'resenas': resenas,'page_range': page_range, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
     return render(request, 'nosotros.html',{'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
 
 def contacto(request):
@@ -95,7 +96,8 @@ def contacto(request):
         paginator = Paginator(resenas,4)
         pagina = request.GET.get('pagina')
         resenas = paginator.get_page(pagina)
-        return render(request, 'resenas/buscar.html',{'resenas': resenas, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
+        page_range = paginator.get_elided_page_range(number=pagina)
+        return render(request, 'resenas/buscar.html',{'resenas': resenas,'page_range': page_range, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
     data = {
         'form': FormularioContacto(),
         'lista_categorias': lista_categorias, 
@@ -121,10 +123,11 @@ def index(request):
             Q(titulo__icontains = queryset) |
             Q(contenido__icontains = queryset)
         ).distinct()
-    paginator = Paginator(resenas,4)
+    paginator = Paginator(resenas,2)
     pagina = request.GET.get('pagina')
     resenas = paginator.get_page(pagina)
-    return render(request, 'index.html',{'resenas': resenas, 'lista_categorias': lista_categorias, 'lista_autores':lista_autores})
+    page_range = paginator.get_elided_page_range(number=pagina)
+    return render(request, 'index.html',{'resenas': resenas, 'lista_categorias': lista_categorias, 'page_range': page_range,'lista_autores':lista_autores})
 
 def agregar_autor(request):
     lista_categorias = Categoria.objects.filter(estado = True).order_by('nombre')[:20]
@@ -235,14 +238,16 @@ def mostrar_autor(request, id):
         paginator = Paginator(resenas,4)
         pagina = request.GET.get('pagina')
         resenas = paginator.get_page(pagina)
-        return render(request, 'resenas/buscar.html',{'resenas': resenas, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
+        page_range = paginator.get_elided_page_range(number=pagina)
+        return render(request, 'resenas/buscar.html',{'resenas': resenas, 'page_range': page_range,'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
     resenas = Resena.objects.filter(
             Q(autor = autor)
         )
     paginator = Paginator(resenas,4)
     pagina = request.GET.get('pagina')
     resenas = paginator.get_page(pagina)
-    return render(request, 'autor/mostrar.html',{'resenas': resenas, 'autor': autor,'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
+    page_range = paginator.get_elided_page_range(number=pagina)
+    return render(request, 'autor/mostrar.html',{'resenas': resenas, 'autor': autor, 'page_range': page_range, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
 
 @staff_member_required
 def eliminar_autor(request, id):
@@ -291,7 +296,8 @@ def listar_categoria(request):
     paginator = Paginator(categorias,4)
     pagina = request.GET.get('pagina')
     categorias = paginator.get_page(pagina)
-    return render(request, 'categoria/listar.html', {'categorias': categorias, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores })
+    page_range = paginator.get_elided_page_range(number=pagina)
+    return render(request, 'categoria/listar.html', {'categorias': categorias, 'page_range': page_range, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores })
 
 @staff_member_required
 def modificar_categoria(request, id):
@@ -305,7 +311,8 @@ def modificar_categoria(request, id):
         paginator = Paginator(categorias,4)
         pagina = request.GET.get('pagina')
         categorias = paginator.get_page(pagina)
-        return render(request, 'categoria/listar.html', {'categorias': categorias, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores })
+        page_range = paginator.get_elided_page_range(number=pagina)
+        return render(request, 'categoria/listar.html', {'categorias': categorias, 'page_range': page_range, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores })
     categoria = get_object_or_404(Categoria, id=id)
     data = {
         'form': FormularioCategoria(instance=categoria),
@@ -334,14 +341,16 @@ def buscar_categoria(request, categoria):
         paginator = Paginator(resenas,4)
         pagina = request.GET.get('pagina')
         resenas = paginator.get_page(pagina)
-        return render(request, 'resenas/buscar.html',{'resenas': resenas, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
+        page_range = paginator.get_elided_page_range(number=pagina)
+        return render(request, 'resenas/buscar.html',{'resenas': resenas, 'page_range': page_range, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
     resenas = Resena.objects.filter(
             Q(categoria = categoria)
         )
     paginator = Paginator(resenas,4)
     pagina = request.GET.get('pagina')
     resenas = paginator.get_page(pagina)
-    return render(request, 'categoria/buscar.html',{'resenas': resenas, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
+    page_range = paginator.get_elided_page_range(number=pagina)
+    return render(request, 'categoria/buscar.html',{'resenas': resenas, 'page_range': page_range, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
 
 def mostrar_categoria(request, id):
     lista_categorias = Categoria.objects.filter(estado = True).order_by('nombre')[:20]
@@ -356,14 +365,16 @@ def mostrar_categoria(request, id):
         paginator = Paginator(resenas,4)
         pagina = request.GET.get('pagina')
         resenas = paginator.get_page(pagina)
-        return render(request, 'resenas/buscar.html',{'resenas': resenas, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
+        page_range = paginator.get_elided_page_range(number=pagina)
+        return render(request, 'resenas/buscar.html',{'resenas': resenas, 'page_range': page_range, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
     resenas = Resena.objects.filter(
             Q(categoria = categoria)
         )
     paginator = Paginator(resenas,4)
     pagina = request.GET.get('pagina')
     resenas = paginator.get_page(pagina)
-    return render(request, 'categoria/mostrar.html',{'resenas': resenas, 'categoria': categoria,'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
+    page_range = paginator.get_elided_page_range(number=pagina)
+    return render(request, 'categoria/mostrar.html',{'resenas': resenas, 'categoria': categoria, 'page_range': page_range, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
 
 @staff_member_required
 def eliminar_categoria(request, id):
@@ -384,7 +395,8 @@ def agregar_resena(request):
         paginator = Paginator(resenas,4)
         pagina = request.GET.get('pagina')
         resenas = paginator.get_page(pagina)
-        return render(request, 'resenas/listar.html',{'resenas': resenas, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
+        page_range = paginator.get_elided_page_range(number=pagina)
+        return render(request, 'resenas/listar.html',{'resenas': resenas, 'page_range': page_range, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
     data = {
     'form': FormularioResena(),
     'lista_categorias': lista_categorias, 
@@ -414,7 +426,8 @@ def listar_resena(request):
     paginator = Paginator(resenas,4)
     pagina = request.GET.get('pagina')
     resenas = paginator.get_page(pagina)
-    return render(request, 'resenas/listar.html',{'resenas': resenas, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
+    page_range = paginator.get_elided_page_range(number=pagina)
+    return render(request, 'resenas/listar.html',{'resenas': resenas, 'page_range': page_range, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
 
 @staff_member_required
 def modificar_resena(request, id):
@@ -429,7 +442,8 @@ def modificar_resena(request, id):
         paginator = Paginator(resenas,4)
         pagina = request.GET.get('pagina')
         resenas = paginator.get_page(pagina)
-        return render(request, 'resenas/listar.html',{'resenas': resenas, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
+        page_range = paginator.get_elided_page_range(number=pagina)
+        return render(request, 'resenas/listar.html',{'resenas': resenas, 'page_range': page_range, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
     resena = get_object_or_404(Resena, id=id)
     data = {
         'form': FormularioResena(instance=resena),
@@ -464,7 +478,8 @@ def iniciar_sesion(request):
         paginator = Paginator(resenas,4)
         pagina = request.GET.get('pagina')
         resenas = paginator.get_page(pagina)
-        return render(request, 'resenas/buscar.html',{'resenas': resenas, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
+        page_range = paginator.get_elided_page_range(number=pagina)
+        return render(request, 'resenas/buscar.html',{'resenas': resenas, 'page_range': page_range, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
     form = AuthenticationForm(request, data = request.POST)
     if form.is_valid():
         user = form.get_user()
@@ -476,8 +491,8 @@ def iniciar_sesion(request):
         data = {
         'form': FormularioContacto(),
         'lista_categorias': lista_categorias, 
+        'page_range': page_range, 
         'lista_autores':lista_autores
-
         }
     return render(request, "registration/login.html", data)
 
@@ -493,7 +508,8 @@ def crear_usuario(request):
         paginator = Paginator(resenas,4)
         pagina = request.GET.get('pagina')
         resenas = paginator.get_page(pagina)
-        return render(request, 'resenas/buscar.html',{'resenas': resenas, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
+        page_range = paginator.get_elided_page_range(number=pagina)
+        return render(request, 'resenas/buscar.html',{'resenas': resenas,'page_range': page_range, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
     if request.method == 'POST':
         user_form = CreateUserForm(request.POST)
         profile_form = CreateProfileForm(request.POST, request.FILES)
@@ -525,7 +541,8 @@ def modificar_usuario(request):
         paginator = Paginator(resenas,4)
         pagina = request.GET.get('pagina')
         resenas = paginator.get_page(pagina)
-        return render(request, 'resenas/buscar.html',{'resenas': resenas, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
+        page_range = paginator.get_elided_page_range(number=pagina)
+        return render(request, 'resenas/buscar.html',{'resenas': resenas,'page_range': page_range, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)
         profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)

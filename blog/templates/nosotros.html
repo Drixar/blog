@@ -37,26 +37,102 @@
   </div>
 </nav>
 {% endblock menu_pagina %}
-{% block sub_titulo_pagina %} 
+{% block sub_titulo_pagina %}
 Los Hacedores del Blog
 {% endblock sub_titulo_pagina %}
 {% block imagen_principal %} {% static '/assets/img/nosotros.jpg' %} {% endblock imagen_principal %}
-
-
-
+{% block contenido %}
+<div class="col-lg-9">
+  <div class="row g-0 card mb-4">
+    <h2 class="card-header h4 py-3">Adrian Prado @drixar (Y si, En la foto, parezco un guerrillero de Medio Oriente)</h2>
+    <div class="row">
+      <div class="col-lg-4 px-2">
+        <img src=" {% static '/assets/img/yo.jpg' %}" alt="Adrián Prado"
+          class="image-fluid rounded d-flex justify-content-start py-3" style='width: 100%' />
+      </div>
+      <div class="col-lg-6 card-body px-2 py-0">
+        <p class="card-text py-3">
+          Mi nombre es Adrián, porteño de 53 años, padre de dos ex-alumnas de Coder y esposo de Mariana.
+          Empecé a programar a los 16 años, sobre papel, con dibujitos y flechitas. La primera vez aue tuve acceso a una computadora fue una IBM System/3. 
+          El primer lenguaje que aprendí fue Cobol cuando tuve acceso a la primera computadora personal una XT con128 kb de memoria RAM.
+          Y justo en este momento me estoy sintiendo como mi viejo cuando habla del los carros con los que hacia el reparto de Leche.
+          Programé varios años en Clipper e incluso desarrolle alguna aplicaciones profesionales de bases de datos (formato dBase), sobre todo para Call Centers y empresas de atención al cliente.
+          A los 50 años, a pesar que venía usando la computadora para trabajar y para no trabajar, empecé a programar otra vez. Y puedo decir que nada de los que estudié fue en vano.
+          Empecé con HTML y CSS (y muucho Bootstrap, o que creo que se nota en el Blog), después Javascript.
+          
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="row g-0 card mb-4">
+    <h2 class="card-header h4 py-3">El Proyecto - HTML, CSS y Muucho Bootstrap</h2>
+    <div class="row">
+      <div class="col-lg-4 px-2">
+        <img src=" {% static '/assets/img/HTML.jpg' %}" alt="HTML, CSS y Bootstrap"
+          class="image-fluid rounded d-flex justify-content-start py-3" style='width: 100%' />
+      </div>
+      <div class="col-lg-6 card-body px-2 py-0">
+        <p class="card-text py-3">
+          El Proyecto está basado en la plantilla gratuita ZenBlog de BootstrapMade. 
+          "https://bootstrapmade.com/zenblog-bootstrap-blog-template/"
+          Pero no me gustaba el clor, ni el tipo de letra, ni la forma en la que se mostraban los posts. Así que basicamente la hice de nuevo y me encantó hacerlo.
+          Esta fue la parte sencilla, y aunque el diseño no es lo mío, le puse mucho trabaja hasta que quedé conforme.
+          La elección del tema es más o menos natural, porque soy un lector voraz, y consumo mucho blog de libros, reseñas, y novedades editoriales.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="row g-0 card mb-4">
+    <h2 class="card-header h4 py-3">El Proyecto - Python, pero sobre todo Django</h2>
+    <div class="row">
+      <div class="col-lg-4 px-2">
+        <img src=" {% static '/assets/img/PythonYDjango.jpg' %}" alt="HTML, Python y Django"
+          class="image-fluid rounded d-flex justify-content-start py-3" style='width: 100%' />
+      </div>
+      <div class="col-lg-6 card-body px-2 py-0">
+        <p class="card-text py-3">
+          Con el esqueleto del HTML preparado, puse manos al código.
+          Lo primero que hice (una y otra vez, porque a cada rato le quería agregar algo), fue crear los Modelos.
+          Hice los formularios, los configuré en el Admin y gracias a la inestimable colaboración de Developer.pe (http://www.developerpe.com/), pude instalar el import - export, que me ahorraron muchas horas de escribir ejemplos de prueba.
+          En cuanto a codificación lo primero que hice fue el CRUD, que me llevó dos día completos. La realidad es que había quedado tan feo, que pásé los siguientes 5 días trabajando en el formato, y la presentación.
+          Al momento de tener que crear los ejemplos, llegó el momento de incorporar CKeditor para Django. No me da vergüenza decir que debo haber mirado casi 100 horas de video en You Tube, porque no podía hacerlo funcionar. 
+          Y cuando finalmente lo hice funcionar, no podía mostrar el texto correctamente. No sé si es de atolondrado pero no encontraba la solución, hasta que dí con un video de UskoKruM2010 (https://www.youtube.com/c/UskoKruM2010),con 127 visualizaciones, que conseguí hacerlo andar.
+          Quiero expresar mi más sincero agradecimiento a JamesO - https://stackoverflow.com/questions/9616569/django-cannot-assign-u1-staffprofile-user-must-be-a-user-instance, que me explicó en un post de hace 10 años como grabar el registro de Usuario y el Avatar (OneToOneField).
+          No quiero olvidarme de agradecerle a Moisés Sepúlveda (https://www.youtube.com/c/moisessepulveda), a Juan (por lo menos creo que se llama Juan) de píldoras Informáticas(https://www.youtube.com/c/pildorasinformaticas), y a mi amigo y docente digital Jon Mircha (https://www.youtube.com/c/jonmircha), quienes en uno u otro momento del proyecto, sumaron, nada en especial, pero haciendo que el esfuerzo de enseñar y algo habrán hecho, porque el resultado me dejó muy conforme.
+          Y por últmo te quiero agradecerte a vos, Maxi, porque la base quedó y muy sólida, lo que me permitió investigar, entender el código de terceros, y poder aplicar los ejemplos. 
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="row g-0 card mb-4">
+    <h2 class="card-header h4 py-3">Lo que me queda pendiente</h2>
+    <div class="row">
+      <div class="col-lg-4 px-2">
+        <img src=" {% static '/assets/img/futuro.jpg' %}" alt="HTML, Python y Django"
+          class="image-fluid rounded d-flex justify-content-start py-3" style='width: 100%' />
+      </div>
+      <div class="col-lg-6 card-body px-2 py-0">
+        <p class="card-text py-3">
+          Entender las vistas basadas en Clases, que serán todo lo viejas que quieran, pero la red está plagada de códico con este modelo.
+          Profundizar el tema de los modelos ( OneToOne, Many to Many y los ChoiceField).
+          Entender como puedo usar Sass y Javscript en un proyecto de Django, porque no lo entiendo.
+          Y a pesar que ya estoy incripto para hacer BackEnd con Javascript, Phyton parece ser una mucho mejor opción. 
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock contenido %}
 {% block menu_footer %}
 <ul>
-    <li class="fot-item">
-        <a href="{% url 'blog:index' %}">Inicio</a>
-    </li>
-    <li class="fot-item  fot-item-active">
-        <a href="{% url 'blog:nosotros' %}">Nosotros</a>
-    </li>
-    <li class="fot-item">
-        <a href="{% url 'blog:contacto' %}">Contacto</a>
-    </li>
+  <li class="fot-item">
+    <a href="{% url 'blog:index' %}">Inicio</a>
+  </li>
+  <li class="fot-item  fot-item-active">
+    <a href="{% url 'blog:nosotros' %}">Nosotros</a>
+  </li>
+  <li class="fot-item">
+    <a href="{% url 'blog:contacto' %}">Contacto</a>
+  </li>
 </ul>
 {% endblock menu_footer %}
-
-
-
