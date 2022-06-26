@@ -57,7 +57,7 @@
                                 <li><img src="{{ user.profile.avatar.url }}" alt="Avatar"
                                         class="avatar_img rounded-circle"></li>
                                 <li><a href="{% url 'blog:modificar_usuario' %}"> @{{ user.username }} </a></li>
-                                <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
+                                <li><a href="{% url 'blog:cerrar_sesion' %}">Cerrar Sesión</a></li>
                                 {% else %}
                                 <li><a href="{% url 'blog:iniciar_sesion' %}">Iniciar Sesión</a></li>
                                 <li><a href="{% url 'blog:crear_usuario' %}">Registro</a></li>
@@ -130,189 +130,208 @@
 
     <main>
         {% if messages %}
-        <div class="alert alert-dismissible fade show" role="alert">
-            {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} ">
-                <strong>Mensaje del sistema!</strong> {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true"></span>
-                </button>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("#myModal").modal('show');
+            });
+        </script>
+        {% for message in messages %}
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header  bg-{{ message.tags }}">
+                        <h5 class="modal-title text-light">Mensaje del sistema</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ message }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
             </div>
             {% endfor %}
         </div>
 
+
         {% endif %}
         <section id="inicio">
+            <div class="container  mt-4">
+                <div class="row">
 
-
-            <section>
-                <div class="container  mt-4">
-                    <div class="row">
-
-                        {% block contenido %}
-                        <div class="col-lg-9">
-                            <!-- Nested row for non-featured blog posts-->
-                            <div class="row justify-content-around">
-                                {% if resenas %}
-                                {% for resena in resenas %}
-                                <!-- Blog post-->
-                                <div class="card m-1 py-4 px-2 col-lg-5 resena">
-                                    <div class="row g-0">
-                                        <div class="col-md-5 px-2">
-                                            <div class="small text-muted d-flex justify-content-start p-0">
-                                                {{ resena.fecha_alta }}</div>
-                                            <img src="{{ resena.imagen.url }}" alt="{{ resena.titulo }}"
-                                                class="image-fluid rounded d-flex justify-content-start py-3"
-                                                style='width: 100%' />
+                    {% block contenido %}
+                    <div class="col-lg-9">
+                        <!-- Nested row for non-featured blog posts-->
+                        <div class="row justify-content-around">
+                            {% if resenas %}
+                            {% for resena in resenas %}
+                            <!-- Blog post-->
+                            <div class="card m-1 py-4 px-2 col-lg-5 resena">
+                                <div class="row g-0">
+                                    <div class="col-md-5 px-2">
+                                        <div class="small text-muted d-flex justify-content-start p-0">
+                                            {{ resena.fecha_alta }}</div>
+                                        <img src="{{ resena.imagen.url }}" alt="{{ resena.titulo }}"
+                                            class="image-fluid rounded d-flex justify-content-start py-3"
+                                            style='width: 100%' />
+                                    </div>
+                                    <div class="col-md-7 card-body px-2 py-0">
+                                        <div class="small text-muted d-flex justify-content-end p-0">
+                                            <a href="{% url 'blog:mostrar_categoria' resena.categoria_id %}"
+                                                class="link-light">{{resena.categoria}}</a>
                                         </div>
-                                        <div class="col-md-7 card-body px-2 py-0">
-                                            <div class="small text-muted d-flex justify-content-end p-0">
-                                                <a href="{% url 'blog:mostrar_categoria' resena.categoria_id %}"
-                                                    class="link-light">{{resena.categoria}}</a>
-                                            </div>
-                                            <h2 class="card-title h4 py-3">{{ resena.titulo }}</h2>
-                                            <p class="card-text">{{ resena.resumen }}</p>
-                                        </div>
-                                        <div class="col-md-12 d-flex justify-content-between pt-3 px-2">
-                                            <a href="{% url 'blog:mostrar_autor' resena.autor.id %}"
-                                                class="link-light">{{resena.autor}}</a>
-                                            <a class="btn btn-danger"
-                                                href="{% url 'blog:detalleResena' resena.slug %}">Leer →</a>
-                                        </div>
+                                        <h2 class="card-title h4 py-3">{{ resena.titulo }}</h2>
+                                        <p class="card-text">{{ resena.resumen }}</p>
+                                    </div>
+                                    <div class="col-md-12 d-flex justify-content-between pt-3 px-2">
+                                        <a href="{% url 'blog:mostrar_autor' resena.autor.id %}"
+                                            class="link-light">{{resena.autor}}</a>
+                                        <a class="btn btn-danger" href="{% url 'blog:detalleResena' resena.slug %}">Leer
+                                            →</a>
                                     </div>
                                 </div>
-                                {% endfor %}
-                                <!-- Pagination-->
-                                <div class="row">
-                                    <nav class="col-lg-6 offset-lg-3 mt-4 d-flex justify-content-center">
+                            </div>
+                            {% endfor %}
+                            <!-- Pagination-->
+                            <div class="row">
+                                <nav class="col-lg-6 offset-lg-3 mt-4 d-flex justify-content-center">
 
-                                        <ul class="pagination">
-                                            {% if resenas.has_previous %}
-                                            <li class="page-item">
-                                                <a class="page-link prev"
-                                                    href="?pagina={{ resenas.previous_page_number }}">Anterior</a>
-                                            </li>
-                                            {% else %}
-                                            <li class="page-item disabled">
-                                                <a class="page-link " href="#">Anterior</a>
+                                    <ul class="pagination">
+                                        {% if resenas.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link prev"
+                                                href="?pagina={{ resenas.previous_page_number }}">Anterior</a>
+                                        </li>
+                                        {% else %}
+                                        <li class="page-item disabled">
+                                            <a class="page-link " href="#">Anterior</a>
+                                        </li>
+                                        {% endif %}
+
+                                        {% if resenas.number|add:'-3' > 1 %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?pagina=1">1</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                                href="?pagina={{ resenas.number|add:'-3' }}">&hellip;</a>
+                                        </li>
+                                        {% elif resenas.number|add:'-3' == 1 %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?pagina=1">1</a>
+                                        </li>
+                                        {% endif %}
+                                        {% for i in resenas.paginator.page_range %}
+                                        {% if resenas.number == i %}
+                                        <li class="page-item active">
+                                            <a class="page-link" href="?pagina={{i}}">{{i}}</a>
+                                        </li>
+                                        {% elif i > resenas.number|add:'-3' and i < resenas.number|add:'3' %} <li
+                                            class="page-item">
+                                            <a class="page-link" href="?pagina={{ i }}">{{ i }}</a>
                                             </li>
                                             {% endif %}
-
-                                            {% if resenas.number|add:'-3' > 1 %}
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?pagina=1">1</a>
-                                                </li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?pagina={{ resenas.number|add:'-3' }}">&hellip;</a>
-                                                </li>
-                                            {% elif resenas.number|add:'-3' == 1  %}
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?pagina=1">1</a>
-                                                </li>
-                                            {% endif %}
-                                            {% for i in resenas.paginator.page_range %}
-                                                {% if resenas.number == i %}
-                                                    <li class="page-item active">
-                                                        <a class="page-link" href="?pagina={{i}}">{{i}}</a>
-                                                    </li>
-                                                {% elif i > resenas.number|add:'-3' and i < resenas.number|add:'3' %} 
-                                                    <li class="page-item">
-                                                        <a class="page-link" href="?pagina={{ i }}">{{ i }}</a>
-                                                    </li>
-                                                {% endif %}
                                             {% endfor %}
                                             {% if resenas.paginator.num_pages > resenas.number|add:'3' %}
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?pagina={{ resenas.number|add:'3' }}">&hellip;</a>
-                                                </li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?pagina={{ resenas.paginator.num_pages }}">{{ resenas.paginator.num_pages }}</a>
-                                                </li>
+                                            <li class="page-item">
+                                                <a class="page-link"
+                                                    href="?pagina={{ resenas.number|add:'3' }}">&hellip;</a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?pagina={{ resenas.paginator.num_pages }}">
+                                                    {{ resenas.paginator.num_pages }}
+                                                </a>
+                                            </li>
                                             {% elif resenas.paginator.num_pages == resenas.number|add:'3' %}
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?pagina={{ resenas.paginator.num_pages }}">{{ resenas.paginator.num_pages }}</a>
-                                                </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?pagina={{ resenas.paginator.num_pages }}">
+                                                    {{ resenas.paginator.num_pages }}
+                                                </a>
+                                            </li>
                                             {% endif %}
                                             {% if resenas.has_next %}
-                                                <li class="page-item">
-                                                    <a class="page-link next"
-                                                        href="?pagina={{ resenas.next_page_number }}">Siguiente</a>
-                                                </li>
+                                            <li class="page-item">
+                                                <a class="page-link next"
+                                                    href="?pagina={{ resenas.next_page_number }}">Siguiente</a>
+                                            </li>
                                             {% else %}
                                             <li class="page-item disabled">
                                                 <a class="page-link" href="#">Siguiente</a>
                                             </li>
                                             {% endif %}
-                                        </ul>
+                                    </ul>
 
 
-                                    </nav>
-                                </div>
-                                {% else %}
-                                <h1>No existen Reseñas registradas</h1>
-                                {% endif%}
+                                </nav>
                             </div>
+                            {% else %}
+                            <h1>No existen Reseñas registradas</h1>
+                            {% endif%}
                         </div>
-
-                        {% endblock contenido %}
-                        <!-- Side widgets-->
-                        <div class="col-lg-3 ">
-                            <!-- Search widget-->
-                            <div class="card mb-4 buscar">
-                                <div class="card-header">Buscar</div>
-                                <div class="card-body">
-                                    <form method="get">
-                                        <div id="busqueda">
-                                            <div class="input-group col-md-12">
-                                                <input type="text" class="form-control" placeholder="Buscar..."
-                                                    name="buscar" value="{{request.GET.buscar}}">
-                                                <span class="input-group-list">
-                                                    <i class="icon icon-search"></i>
-                                                    <button type="submit" class="btn btn-danger">Buscar</button>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <!-- Categories widget-->
-                            <div class="card mb-4 categorias">
-                                <div class="card-header"> <a href="#" class="link-light">Categorías</a></div>
-                                <div class="card-body">
-                                    {% if lista_categorias %}
-                                    <div class="row row-cols-2">
-                                        {% for categoria in lista_categorias %}
-                                        <div class="col">
-                                            <a href="{% url 'blog:buscar_categoria' categoria.id %}"
-                                                class="link-light">{{categoria.nombre}}</a>
-                                        </div>
-                                        {% endfor %}
-                                    </div>
-                                    {% endif %}
-
-                                </div>
-                            </div>
-                            <!-- Side widget-->
-                            <div class="card mb-4 autores">
-                                <div class="card-header"><a href="#" class="link-light">Autores</a></div>
-                                <div class="card-body">
-                                    {% if lista_autores %}
-                                    <div class="row row-cols-1">
-                                        {% for autor in lista_autores %}
-                                        <div class="col">
-                                            <a href="{% url 'blog:buscar_autor' autor.id %}"
-                                                class="link-light">{{autor.nombre}}</a>
-                                        </div>
-                                        {% endfor %}
-                                    </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
+
+                    {% endblock contenido %}
+                    <!-- Side widgets-->
+                    <div class="col-lg-3 ">
+                        <!-- Search widget-->
+                        <div class="card mb-4 buscar">
+                            <div class="card-header">Buscar</div>
+                            <div class="card-body">
+                                <form method="get">
+                                    <div id="busqueda">
+                                        <div class="input-group col-md-12">
+                                            <input type="text" class="form-control" placeholder="Buscar..."
+                                                name="buscar" value="{{request.GET.buscar}}">
+                                            <span class="input-group-list">
+                                                <i class="icon icon-search"></i>
+                                                <button type="submit" class="btn btn-danger">Buscar</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- Categories widget-->
+                        <div class="card mb-4 categorias">
+                            <div class="card-header"> <a href="#" class="link-light">Categorías</a></div>
+                            <div class="card-body">
+                                {% if lista_categorias %}
+                                <div class="row row-cols-2">
+                                    {% for categoria in lista_categorias %}
+                                    <div class="col">
+                                        <a href="{% url 'blog:buscar_categoria' categoria.id %}"
+                                            class="link-light">{{categoria.nombre}}</a>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                        <!-- Side widget-->
+                        <div class="card mb-4 autores">
+                            <div class="card-header"><a href="#" class="link-light">Autores</a></div>
+                            <div class="card-body">
+                                {% if lista_autores %}
+                                <div class="row row-cols-1">
+                                    {% for autor in lista_autores %}
+                                    <div class="col">
+                                        <a href="{% url 'blog:buscar_autor' autor.id %}"
+                                            class="link-light">{{autor.nombre}}</a>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-            </section>
+            </div>
+        </section>
 
 
     </main>
@@ -393,6 +412,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
         crossorigin="anonymous"></script>
+        
     <script src="{% static 'assets/vendor/ckeditor5/ckeditor.js' %}"></script>
     <script src="{% static 'assets/vendor/ckeditor5/ckeditor-init.js' %}"></script>
     <script src="{% static 'assets/vendor/ckeditor5/es.js' %}"></script>

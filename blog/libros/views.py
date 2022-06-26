@@ -4,7 +4,7 @@ from django.template import loader
 from django.http import HttpResponse, Http404
 from platformdirs import user_cache_dir
 from .forms import *
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .models import Autor, Categoria, Resena, Comentario
 from django.db.models import Q
@@ -38,6 +38,7 @@ def detalleResena(request, slug):
             print('no pasó')
     return render(request, 'single-post.html', data)
 
+@login_required
 def agregar_comentario(request, slug):
     lista_categorias = Categoria.objects.filter(estado = True).order_by('nombre')[:20]
     lista_autores = Autor.objects.filter(estado = True).order_by('nombre')[:20]
@@ -108,7 +109,7 @@ def contacto(request):
         formulario = FormularioContacto(data=request.POST)
         if formulario.is_valid():
             formulario.save()
-            data['mensaje'] = "Mensaje Enviado"
+            messages.success(request,'Mensaje enviado')
         else:
             data['form'] = formulario
     return render(request, 'contacto.html', data)
@@ -123,7 +124,7 @@ def index(request):
             Q(titulo__icontains = queryset) |
             Q(contenido__icontains = queryset)
         ).distinct()
-    paginator = Paginator(resenas,2)
+    paginator = Paginator(resenas,4)
     pagina = request.GET.get('pagina')
     resenas = paginator.get_page(pagina)
     page_range = paginator.get_elided_page_range(number=pagina)
@@ -151,7 +152,7 @@ def agregar_autor(request):
         formulario =  FormularioAutor(data=request.POST, files=request.FILES)
         if formulario.is_valid():
             formulario.save()
-            data['mensaje'] = 'Autor Guardado Correctamente'
+            messages.success(request,'Autor Guardado Correctamente')
             return redirect(to="blog:listar_autor")
         else:
             data['form'] = formulario        
@@ -198,7 +199,7 @@ def modificar_autor(request, id):
         formulario =  FormularioAutor(data=request.POST, files=request.FILES, instance=autor)
         if formulario.is_valid():
             formulario.save()
-            data['mensaje'] = 'Autor Modificado Correctamente'
+            messages.success(request,'Autor Modificado Correctamente')
             return redirect(to="blog:listar_autor")
         else:
             data['form'] = formulario  
@@ -277,7 +278,7 @@ def agregar_categoria(request):
         formulario =  FormularioCategoria(data=request.POST, files=request.FILES)
         if formulario.is_valid():
             formulario.save()
-            data['mensaje'] = 'Categoría Guardada Correctamente'
+            messages.success(request,'Categoría Guardada Correctamente')
             return redirect(to='blog:listar_categoria')
         else:
             data['form'] = formulario  
@@ -323,10 +324,11 @@ def modificar_categoria(request, id):
         formulario =  FormularioCategoria(data=request.POST, instance=categoria)
         if formulario.is_valid():
             formulario.save()
-            data['mensaje'] = 'Categoría Modificada Correctamente'
+            messages.success(request,'Categoría Modificada Correctamente')
             return redirect(to='blog:listar_categoria')
         else:
             data['form'] = formulario  
+            messages.info(request,'Veridique los datos ingresados')
     return render(request, 'categoria/modificar.html', data)
 
 def buscar_categoria(request, categoria):
@@ -406,10 +408,11 @@ def agregar_resena(request):
         formulario =  FormularioResena(data=request.POST, files=request.FILES)
         if formulario.is_valid():
             formulario.save()
-            data['mensaje'] = 'Reseña Guardada Correctamente'
+            messages.success(request,'Reseña Guardada Correctamente')
             return redirect(to='blog:listar_resena')
         else:
             data['form'] = formulario 
+            messages.info(request,'Veridique los datos ingresados')
     return render(request, 'resenas/agregar.html',data)
 
 @login_required
@@ -454,16 +457,19 @@ def modificar_resena(request, id):
         formulario =  FormularioResena(data=request.POST, instance=resena, files=request.FILES)
         if formulario.is_valid():
             formulario.save()
-            data['mensaje'] = 'Reseña Modificada Correctamente'
+            messages.success(request,"Reseña Modificada Correctamente") 
             return redirect(to='blog:listar_resena')
         else:
             data['form'] = formulario  
+            messages.info(request,'Veridique los datos ingresados')
     return render(request, 'resenas/modificar.html', data)
 
 @staff_member_required
 def eliminar_resena(request, id):
     resena = get_object_or_404(Resena, id=id)
-    resena.delete()
+    resena.estado = False
+    print(resena.titulo, resena.estado)
+    resena.save() 
     return redirect(to='blog:listar_resena')
 
 def iniciar_sesion(request):
@@ -491,10 +497,16 @@ def iniciar_sesion(request):
         data = {
         'form': FormularioContacto(),
         'lista_categorias': lista_categorias, 
-        'page_range': page_range, 
+        # 'page_range': page_range, 
         'lista_autores':lista_autores
         }
+        messages.info(request,'Veridique los datos ingresados')
     return render(request, "registration/login.html", data)
+
+def cerrar_sesion(request):
+    logout(request)
+    messages.success(request,"Has cerrado sesión")
+    return redirect(to='blog:index')
 
 def crear_usuario(request):
     lista_categorias = Categoria.objects.filter(estado = True).order_by('nombre')[:20]
@@ -522,7 +534,7 @@ def crear_usuario(request):
             user = User.objects.get(id=user.id)
             profile_form.instance.user = user
             profile_form.save()
-            messages.success(request,"Te has registrado correctamente")
+            messages.success(request,"Te has registrado correctamente") 
             return redirect(to='blog:index')
     user_form = CreateUserForm(data=request.POST)
     profile_form = CreateProfileForm(data=request.POST, files=request.FILES)
@@ -555,5 +567,5 @@ def modificar_usuario(request):
     else:
         user_form = UpdateUserForm(instance=request.user)
         profile_form = UpdateProfileForm(instance=request.user.profile)
-
+        messages.info(request,'Veridique los datos ingresados')
     return render(request, 'registration/modificar.html', {'user_form': user_form, 'profile_form': profile_form, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})

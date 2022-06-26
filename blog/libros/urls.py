@@ -10,6 +10,7 @@ urlpatterns = [
     path('contacto/', contacto, name = 'contacto'),
     path('crear-usuario/', crear_usuario, name = 'crear_usuario'),
     path('iniciar-sesion/', iniciar_sesion, name = 'iniciar_sesion'),
+    path('cerrar-sesion/', cerrar_sesion, name = 'cerrar_sesion'),
     path('modificar-usuario/', modificar_usuario, name = 'modificar_usuario'),
     # path('login/', auth_views.LoginView.as_view(template_name='users/login.html')),
     path('agregar-autor/', agregar_autor, name= 'agregar_autor'),

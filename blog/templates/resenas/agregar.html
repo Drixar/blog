@@ -53,7 +53,7 @@ Nueva Reseña
                 {{form|crispy}}
 
                 <div class="d-flex justify-content-center">
-                    <input type="reset" value="Cancelar" class="btn btn-danger m-4">
+                    <input type="reset" value="Cancelar" class="btn btn-danger m-4" onclick="location.href='{% url 'blog:listar_resena' %}'">
                     <input type="submit" value="Guardar" class="btn btn-success  m-4">
                 </div>
             </form>
