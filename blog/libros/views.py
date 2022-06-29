@@ -16,6 +16,38 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 
+@staff_member_required
+def revivir(request):
+    resenas = Resena.objects.filter(estado = False)
+    for resena in resenas:
+        resena.estado = True
+        resena.save()
+
+    categorias = Categoria.objects.filter(estado = False)
+    for categoria in categorias:
+        categoria.estado = True
+        categoria.save()
+
+    autores = Autor.objects.filter(estado = False)
+    for autor in autores:
+        autor.estado = True
+        autor.save()
+
+    resenas = Resena.objects.filter(estado = True).order_by('-fecha_alta')
+    lista_categorias = Categoria.objects.filter(estado = True).order_by('nombre')[:20]
+    lista_autores = Autor.objects.filter(estado = True).order_by('nombre')[:20]
+    queryset = request.GET.get("buscar")
+    if queryset:
+        resenas = Resena.objects.filter(
+            Q(titulo__icontains = queryset) |
+            Q(contenido__icontains = queryset)
+        ).distinct()
+    paginator = Paginator(resenas,4)
+    pagina = request.GET.get('pagina')
+    resenas = paginator.get_page(pagina)
+    page_range = paginator.get_elided_page_range(number=pagina)
+    return render(request, 'index.html',{'resenas': resenas, 'lista_categorias': lista_categorias, 'page_range': page_range,'lista_autores':lista_autores})
+
 def detalleResena(request, slug):
     lista_categorias = Categoria.objects.filter(estado = True).order_by('nombre')[:20]
     lista_autores = Autor.objects.filter(estado = True).order_by('nombre')[:20]
@@ -33,9 +65,6 @@ def detalleResena(request, slug):
         comentarios =  FormularioComentario(data=request.POST)
         if comentarios.is_valid():
             comentarios.save()
-            print('pasó')
-        else:
-            print('no pasó')
     return render(request, 'single-post.html', data)
 
 @login_required
@@ -130,6 +159,7 @@ def index(request):
     page_range = paginator.get_elided_page_range(number=pagina)
     return render(request, 'index.html',{'resenas': resenas, 'lista_categorias': lista_categorias, 'page_range': page_range,'lista_autores':lista_autores})
 
+@staff_member_required
 def agregar_autor(request):
     lista_categorias = Categoria.objects.filter(estado = True).order_by('nombre')[:20]
     lista_autores = Autor.objects.filter(estado = True).order_by('nombre')[:20]
@@ -192,9 +222,9 @@ def modificar_autor(request, id):
     data = {
         'form': FormularioAutor(instance=autor),
         'lista_categorias': lista_categorias, 
-        'lista_autores':lista_autores
+        'lista_autores':lista_autores,
+        'autor': autor
     }
-
     if request.method == 'POST':
         formulario =  FormularioAutor(data=request.POST, files=request.FILES, instance=autor)
         if formulario.is_valid():
@@ -203,7 +233,7 @@ def modificar_autor(request, id):
             return redirect(to="blog:listar_autor")
         else:
             data['form'] = formulario  
-    return render(request, 'autor/modificar.html', data)
+    return render(request, 'autor/editar.html', data)
 
 def buscar_autor(request, autor):
     lista_categorias = Categoria.objects.filter(estado = True).order_by('nombre')[:20]
@@ -221,10 +251,15 @@ def buscar_autor(request, autor):
     resenas = Resena.objects.filter(
             Q(autor = autor)
         )
+    autor = get_object_or_404(Autor, id=autor)
     paginator = Paginator(resenas,4)
     pagina = request.GET.get('pagina')
     resenas = paginator.get_page(pagina)
-    return render(request, 'autor/buscar.html',{'resenas': resenas, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
+    data = {'resenas': resenas, 
+            'lista_categorias': lista_categorias, 
+            'lista_autores': lista_autores,
+            'autor': autor}
+    return render(request, 'autor/buscar.html',data)
 
 def mostrar_autor(request, id):
     lista_categorias = Categoria.objects.filter(estado = True).order_by('nombre')[:20]
@@ -252,8 +287,15 @@ def mostrar_autor(request, id):
 
 @staff_member_required
 def eliminar_autor(request, id):
+    #Buscamos el autor que queremos eliminar
     autor = get_object_or_404(Autor, id=id)
-    autor.delete()
+    #buscamos todas las reseñas de esautor y las eliminamos
+    resenas = Resena.objects.filter(estado = True).filter(autor=autor.id)
+    for resena in resenas:
+        resena.estado = False
+        resena.save()
+    autor.estado=False
+    autor.save()
     return redirect(to='blog:listar_autor')
 
 @staff_member_required
@@ -318,7 +360,8 @@ def modificar_categoria(request, id):
     data = {
         'form': FormularioCategoria(instance=categoria),
         'lista_categorias': lista_categorias, 
-        'lista_autores':lista_autores
+        'lista_autores':lista_autores,
+        'categoria': categoria
     }
     if request.method == 'POST':
         formulario =  FormularioCategoria(data=request.POST, instance=categoria)
@@ -329,7 +372,7 @@ def modificar_categoria(request, id):
         else:
             data['form'] = formulario  
             messages.info(request,'Veridique los datos ingresados')
-    return render(request, 'categoria/modificar.html', data)
+    return render(request, 'categoria/editar.html', data)
 
 def buscar_categoria(request, categoria):
     lista_categorias = Categoria.objects.filter(estado = True).order_by('nombre')[:20]
@@ -340,11 +383,16 @@ def buscar_categoria(request, categoria):
             Q(titulo__icontains = queryset) |
             Q(contenido__icontains = queryset)
         ).distinct()
+
         paginator = Paginator(resenas,4)
         pagina = request.GET.get('pagina')
         resenas = paginator.get_page(pagina)
         page_range = paginator.get_elided_page_range(number=pagina)
-        return render(request, 'resenas/buscar.html',{'resenas': resenas, 'page_range': page_range, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
+        data = {'resenas': resenas, 
+                'page_range': page_range, 
+                'lista_categorias': lista_categorias, 
+                'lista_autores': lista_autores}
+        return render(request, 'resenas/buscar.html', data)
     resenas = Resena.objects.filter(
             Q(categoria = categoria)
         )
@@ -352,7 +400,14 @@ def buscar_categoria(request, categoria):
     pagina = request.GET.get('pagina')
     resenas = paginator.get_page(pagina)
     page_range = paginator.get_elided_page_range(number=pagina)
-    return render(request, 'categoria/buscar.html',{'resenas': resenas, 'page_range': page_range, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})
+    categoria = get_object_or_404(Categoria, id=categoria)
+    data = {'resenas': resenas, 
+            'page_range': page_range, 
+            'lista_categorias': lista_categorias, 
+            'lista_autores': lista_autores,
+            'categoria': categoria
+            }
+    return render(request, 'categoria/buscar.html', data)
 
 def mostrar_categoria(request, id):
     lista_categorias = Categoria.objects.filter(estado = True).order_by('nombre')[:20]
@@ -380,8 +435,16 @@ def mostrar_categoria(request, id):
 
 @staff_member_required
 def eliminar_categoria(request, id):
+    #buscamos la categoría a eliminar
     categoria = get_object_or_404(Categoria, id=id)
-    categoria.delete()
+    #buscamos todas las reseñas de esa categoria y las eliminamos
+    resenas = Resena.objects.filter(estado = True).filter(categoria=categoria.id)
+    for resena in resenas:
+        resena.estado = False
+        resena.save()
+    #eliminamos la categoria
+    categoria.estado = False
+    categoria.save()
     return redirect(to='blog:listar_categoria')
 
 @staff_member_required
@@ -412,7 +475,7 @@ def agregar_resena(request):
             return redirect(to='blog:listar_resena')
         else:
             data['form'] = formulario 
-            messages.info(request,'Veridique los datos ingresados')
+            messages.info(request,'Verifique los datos ingresados')
     return render(request, 'resenas/agregar.html',data)
 
 @login_required
@@ -451,7 +514,8 @@ def modificar_resena(request, id):
     data = {
         'form': FormularioResena(instance=resena),
         'lista_categorias': lista_categorias, 
-        'lista_autores':lista_autores
+        'lista_autores':lista_autores,
+        'resena': resena
     }
     if request.method == 'POST':
         formulario =  FormularioResena(data=request.POST, instance=resena, files=request.FILES)
@@ -461,15 +525,17 @@ def modificar_resena(request, id):
             return redirect(to='blog:listar_resena')
         else:
             data['form'] = formulario  
-            messages.info(request,'Veridique los datos ingresados')
-    return render(request, 'resenas/modificar.html', data)
+            messages.info(request,'Verifique los datos ingresados')
+    return render(request, 'resenas/editar.html', data)
 
 @staff_member_required
 def eliminar_resena(request, id):
+    #buscamos la resea a eliminar
     resena = get_object_or_404(Resena, id=id)
+    #eliminamos la reseña
     resena.estado = False
-    print(resena.titulo, resena.estado)
     resena.save() 
+    messages.success(request,"Reseña Eliminada Correctamente")
     return redirect(to='blog:listar_resena')
 
 def iniciar_sesion(request):
@@ -500,7 +566,6 @@ def iniciar_sesion(request):
         # 'page_range': page_range, 
         'lista_autores':lista_autores
         }
-        messages.info(request,'Veridique los datos ingresados')
     return render(request, "registration/login.html", data)
 
 def cerrar_sesion(request):
@@ -558,7 +623,6 @@ def modificar_usuario(request):
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)
         profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
-        print(user_form.is_valid(), profile_form.is_valid())
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
@@ -567,5 +631,4 @@ def modificar_usuario(request):
     else:
         user_form = UpdateUserForm(instance=request.user)
         profile_form = UpdateProfileForm(instance=request.user.profile)
-        messages.info(request,'Veridique los datos ingresados')
     return render(request, 'registration/modificar.html', {'user_form': user_form, 'profile_form': profile_form, 'lista_categorias': lista_categorias, 'lista_autores': lista_autores})

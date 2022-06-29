@@ -70,8 +70,10 @@ Todos los Autores
                     </td>
                     <td>
                         {% if user.is_superuser %}
-                        <a href="{% url 'blog:modificar_autor' autor.id %}" class="btn btn-warning btn-sm">Modificar</a>
-                        <a href="{% url 'blog:eliminar_autor' autor.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                        <button onclick="abrir_modal_modificar('{% url 'blog:modificar_autor' autor.id %}')"
+                            class="btn btn-warning btn-sm">Modificar
+                        </button>
+                        <a href="#" onclick="eliminar_autor({{autor.id}})" class="btn btn-danger btn-sm">Eliminar</a>
                         {% else %}
                         <img src="{{ autor.imagen.url }}" alt="Avatar" class="avatar_img rounded-circle">
                         {% endif %}
@@ -83,7 +85,9 @@ Todos los Autores
             </table>
             {% if user.is_superuser %}
             <div class="d-flex justify-content-end">
-                <a href="{% url 'blog:agregar_autor' %}" class="btn btn-success btn-sm text-end">Nuevo Autor</a>
+                <button onclick="abrir_modal_modificar('{% url 'blog:agregar_autor' %}')"
+                class="btn btn-success btn-sm">Nuevo Autor
+            </button>
             </div>
             {% endif %}
             {% else %}
@@ -155,6 +159,11 @@ Todos los Autores
 
     </nav>
 </div>
+
+<div class="modal fade .bg-transparent" id="modificar">
+
+</div>
+
 {% endblock contenido %}
 {% block menu_footer %}
 <ul>
@@ -169,3 +178,33 @@ Todos los Autores
     </li>
 </ul>
 {% endblock menu_footer %}
+{% block extrajs %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{% static 'assets/js/sweetalert2.all.min.js' %}"></script>
+<script type="text/javascript">
+    var $ = jQuery.noConflict()
+    function abrir_modal_modificar(url) {
+        $('#modificar').load(url, function () {
+            $('#modificar').modal('show');
+        });
+    }
+    
+    function eliminar_autor(id) {
+        console.log(id)
+        Swal.fire({
+            title: '¿Quiere eliminar el Autor?',
+            text: "¡Esta operación no se puede revertir! También se eliminarán las reseñas asociadas con este Autor",
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonColor: '#dc3545',
+            confirmButtonColor: '#007e33',
+            confirmButtonText: 'Eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '../eliminar-autor/'+id+'/';
+            }
+        })
+    }
+</script>
+{% endblock extrajs %}

@@ -1,81 +1,21 @@
-{% extends 'index.html' %}
-{% load static %}
-{% block titulo %} Agregar Autor {% endblock titulo %}
-{% block titulo_pagina %} Agregar Autor {% endblock titulo_pagina %}
-{% block menu_pagina %}
-<nav class="navbar navbar-expand-lg ">
-    <div class="container-fluid">
-        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation">
-            <span class="toggler-icon top-bar"></span>
-            <span class="toggler-icon middle-bar"></span>
-            <span class="toggler-icon bottom-bar"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="nav navbar-nav  py-2">
-                <li class="nav-item">
-                    <a href="{% url 'blog:index' %}">Inicio</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'blog:listar_resena' %}">Reseñas</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'blog:listar_categoria' %}">Categorías</a>
-                </li>
-                <li class="nav-item active">
-                    <a href="{% url 'blog:listar_autor' %}">Autores</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'blog:nosotros' %}">Nosotros</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'blog:contacto' %}">Contacto</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-{% endblock menu_pagina %}
-{% block sub_titulo_pagina %}
-Nuevo Autor
-{% endblock sub_titulo_pagina %}
-{% block imagen_principal %} {% static '/assets/img/autor1.jpg' %} {% endblock imagen_principal %}
-
-{% block contenido %}
 {% load crispy_forms_tags %}
-<div class="col-lg-9">
-    <div class="card">
-        <div class="card-body">
-            <form action="" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{form.media}}
-                {{form|crispy}}
-                <div class="d-flex justify-content-center">
-                    <input type="reset" value="Cancelar" class="btn btn-danger m-4" onclick="location.href='{% url 'blog:listar_autor' %}'">
-                    <input type="submit" value="Guardar" class="btn btn-success  m-4">
-                </div>
-            </form>
-            {{ mensaje }}
+<!-- Modal -->
 
+<div class="modal-dialog modal-lg bg-transparent" role="document">
+    <div class="modal-content bg-transparent">
+        <div class="modal-header bg-danger">
+            <h5 class="modal-title">Nuevo Autor</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+        <form action="{% url 'blog:agregar_autor' %}" method="post" enctype="multipart/form-data" class="modal-body">
+            {% csrf_token %}
+            {{form.media}}
+            {{form|crispy}}
+            <div class="modal-footer border-top border-danger d-flex justify-content-center bg-transparent">
+                <input type="reset" value="Cancelar" class="btn btn-danger m-4"
+                    onclick="location.href='{% url 'blog:listar_autor' %}'">
+                <input type="submit" value="Guardar" class="btn btn-success  m-4">
+            </div>
+        </form>
     </div>
 </div>
-
-
-
-
-{% endblock contenido %}
-{% block menu_footer %}
-<ul>
-    <li class="fot-item">
-        <a href="{% url 'blog:index' %}">Inicio</a>
-    </li>
-    <li class="fot-item">
-        <a href="{% url 'blog:nosotros' %}">Nosotros</a>
-    </li>
-    <li class="fot-item">
-        <a href="{% url 'blog:contacto' %}">Contacto</a>
-    </li>
-</ul>
-{% endblock menu_footer %}

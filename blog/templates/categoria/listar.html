@@ -71,8 +71,10 @@ Todas las categorías
                     </td>
                     <td>
                         {% if user.is_superuser %}
-                        <a href="{% url 'blog:modificar_categoria' categoria.id %}" class="btn btn-warning btn-sm">modificar</a>
-                        <a href="{% url 'blog:eliminar_categoria' categoria.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                        <button onclick="abrir_modal_modificar('{% url 'blog:modificar_categoria' categoria.id %}')"
+                            class="btn btn-warning btn-sm">modificar
+                        </button>
+                        <a href="#" onclick="eliminar_categoria({{categoria.id}})" class="btn btn-danger btn-sm">Eliminar</a>
                         {% else %}
                         <img src="{{ categoria.imagen.url }}" alt="Avatar" class="avatar_img rounded-circle">
                         {% endif %}
@@ -84,7 +86,9 @@ Todas las categorías
             </table>
             {% if user.is_superuser %}
             <div class="d-flex justify-content-end">
-                <a href="{% url 'blog:agregar_categoria' %}" class="btn btn-success btn-sm text-end">Nueva Categoría</a>
+                <button onclick="abrir_modal_modificar('{% url 'blog:agregar_categoria' %}')"
+                    class="btn btn-success btn-sm">Nueva Categoría
+                </button>
             </div>
             {% endif %}
             {% else %}
@@ -156,6 +160,11 @@ Todas las categorías
 
     </nav>
 </div>
+
+<div class="modal fade .bg-transparent" id="modificar">
+
+</div>
+
 {% endblock contenido %}
 {% block menu_footer %}
 <ul>
@@ -170,3 +179,34 @@ Todas las categorías
     </li>
 </ul>
 {% endblock menu_footer %}
+
+{% block extrajs %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{% static 'assets/js/sweetalert2.all.min.js' %}"></script>
+<script type="text/javascript">
+    var $ = jQuery.noConflict()
+    function abrir_modal_modificar(url) {
+        $('#modificar').load(url, function () {
+            $('#modificar').modal('show');
+        });
+    }
+    
+    function eliminar_categoria(id) {
+        console.log(id)
+        Swal.fire({
+            title: '¿Quiere eliminar la Categoría?',
+            text: "¡Esta operación no se puede revertir! También se eliminarán las reseñas asociadas con esta categoría",
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonColor: '#dc3545',
+            confirmButtonColor: '#007e33',
+            confirmButtonText: 'Eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '../eliminar-categoria/'+id+'/';
+            }
+        })
+    }
+</script>
+{% endblock extrajs %}

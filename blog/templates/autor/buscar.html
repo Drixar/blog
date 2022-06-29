@@ -54,20 +54,19 @@ Buscando por Autor
                         <div class="small text-muted d-flex justify-content-start p-0">
                             {{ resena.fecha_alta }}</div>
                         <img src="{{ resena.imagen.url }}" alt="{{ resena.titulo }}"
-                            class="image-fluid rounded d-flex justify-content-start py-3"
-                            style='width: 100%' />
+                            class="image-fluid rounded d-flex justify-content-start py-3" style='width: 100%' />
                     </div>
                     <div class="col-md-7 card-body px-2 py-0">
                         <div class="d-flex justify-content-end p-0">
-                            <a href="{% url 'blog:mostrar_categoria' resena.categoria_id %}" class="link-light">{{resena.categoria}}</a>
+                            <a href="{% url 'blog:mostrar_categoria' resena.categoria_id %}"
+                                class="link-light">{{resena.categoria}}</a>
                         </div>
                         <h2 class="card-title h4 py-3">{{ resena.titulo }}</h2>
                         <p class="card-text">{{ resena.resumen }}</p>
                     </div>
                     <div class="col-md-12 d-flex justify-content-between pt-3 px-2">
                         <a href="{% url 'blog:mostrar_autor' resena.autor.id %}" class="link-light">{{resena.autor}}</a>
-                        <a class="btn btn-danger"
-                            href="{% url 'blog:detalleResena' resena.slug %}">Leer →</a>
+                        <a class="btn btn-danger" href="{% url 'blog:detalleResena' resena.slug %}">Leer →</a>
                     </div>
                 </div>
             </div>
@@ -80,8 +79,7 @@ Buscando por Autor
                     <ul class="pagination">
                         {% if resenas.has_previous %}
                         <li class="page-item">
-                            <a class="page-link prev"
-                                href="?pagina={{ resenas.previous_page_number }}">Anterior</a>
+                            <a class="page-link prev" href="?pagina={{ resenas.previous_page_number }}">Anterior</a>
                         </li>
                         {% else %}
                         <li class="page-item disabled">
@@ -90,62 +88,62 @@ Buscando por Autor
                         {% endif %}
 
                         {% if resenas.number|add:'-3' > 1 %}
-                            <li class="page-item">
-                                <a class="page-link" href="?pagina=1">1</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="?pagina={{ resenas.number|add:'-3' }}">&hellip;</a>
-                            </li>
-                        {% elif resenas.number|add:'-3' == 1  %}
-                            <li class="page-item">
-                                <a class="page-link" href="?pagina=1">1</a>
-                            </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?pagina=1">1</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?pagina={{ resenas.number|add:'-3' }}">&hellip;</a>
+                        </li>
+                        {% elif resenas.number|add:'-3' == 1 %}
+                        <li class="page-item">
+                            <a class="page-link" href="?pagina=1">1</a>
+                        </li>
                         {% endif %}
                         {% for i in resenas.paginator.page_range %}
-                            {% if resenas.number == i %}
-                                <li class="page-item active">
-                                    <a class="page-link" href="?pagina={{i}}">{{i}}</a>
-                                </li>
-                            {% elif i > resenas.number|add:'-3' and i < resenas.number|add:'3' %} 
-                                <li class="page-item">
-                                    <a class="page-link" href="?pagina={{ i }}">{{ i }}</a>
-                                </li>
+                        {% if resenas.number == i %}
+                        <li class="page-item active">
+                            <a class="page-link" href="?pagina={{i}}">{{i}}</a>
+                        </li>
+                        {% elif i > resenas.number|add:'-3' and i < resenas.number|add:'3' %} <li class="page-item">
+                            <a class="page-link" href="?pagina={{ i }}">{{ i }}</a>
+                            </li>
                             {% endif %}
-                        {% endfor %}
-                        {% if resenas.paginator.num_pages > resenas.number|add:'3' %}
+                            {% endfor %}
+                            {% if resenas.paginator.num_pages > resenas.number|add:'3' %}
                             <li class="page-item">
                                 <a class="page-link" href="?pagina={{ resenas.number|add:'3' }}">&hellip;</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" href="?pagina={{ resenas.paginator.num_pages }}">{{ resenas.paginator.num_pages }}</a>
+                                <a class="page-link" href="?pagina={{ resenas.paginator.num_pages }}">{{
+                                    resenas.paginator.num_pages }}</a>
                             </li>
-                        {% elif resenas.paginator.num_pages == resenas.number|add:'3' %}
+                            {% elif resenas.paginator.num_pages == resenas.number|add:'3' %}
                             <li class="page-item">
-                                <a class="page-link" href="?pagina={{ resenas.paginator.num_pages }}">{{ resenas.paginator.num_pages }}</a>
+                                <a class="page-link" href="?pagina={{ resenas.paginator.num_pages }}">{{
+                                    resenas.paginator.num_pages }}</a>
                             </li>
-                        {% endif %}
-                        {% if resenas.has_next %}
+                            {% endif %}
+                            {% if resenas.has_next %}
                             <li class="page-item">
-                                <a class="page-link next"
-                                    href="?pagina={{ resenas.next_page_number }}">Siguiente</a>
+                                <a class="page-link next" href="?pagina={{ resenas.next_page_number }}">Siguiente</a>
                             </li>
-                        {% else %}
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#">Siguiente</a>
-                        </li>
-                        {% endif %}
+                            {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#">Siguiente</a>
+                            </li>
+                            {% endif %}
                     </ul>
 
 
                 </nav>
             </div>
         {% else %}
-        <div class="card lista_autores">
-            <div class="card-header">Buscador de Autores</div>
-            <div class="card-body">
-                <p>No existen Reseñas registradas</p>
+            <div class="card lista_autores m-0 py-0 px-0 ">
+                <div class="card-header">Buscador de Autores</div>
+                <div class="card-body">
+                    <p>No existen Reseñas registradas para {{ autor.nombre }}</p>
+                </div>
             </div>
-        </div>
         {% endif%}
 
 

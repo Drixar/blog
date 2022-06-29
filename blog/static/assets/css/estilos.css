@@ -527,14 +527,18 @@ footer .pie__copyright p {
 
 
 .form-control {
-  background-color: transparent !important;
+  background-color: rgba(245, 245, 245, 1) !important;
   border-color: rgba(220, 53, 69, 1) !important ;
-  color: rgb(255, 255, 255) !important ;
+  color: rgb(52, 58, 64) !important ;
+}
+
+.modal-content {
+  background-color: rgba(245, 245, 245, .75) !important;
 }
 
 ::placeholder{
   
-  color: rgba(255, 255, 255, 0.7) !important ;
+  color:  rgb(52, 58, 64) !important ;
 }
 
 .account-img {

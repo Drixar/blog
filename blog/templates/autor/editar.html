@@ -1,0 +1,24 @@
+{% load crispy_forms_tags %}
+<!-- Modal -->
+
+<div class="modal-dialog modal-lg .bg-transparent" role="document">
+    <div class="modal-content .bg-transparent">
+        <div class="modal-header bg-danger">
+            <h5 class="modal-title">Editar Autor</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="{% url 'blog:modificar_autor' autor.id %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form.media}}
+                {{form|crispy}}
+
+                <div class="d-flex justify-content-center">
+                    <input type="reset" value="Cancelar" class="btn btn-danger m-4"
+                    onclick="location.href='{% url 'blog:listar_autor' %}'">
+                    <button class="btn btn-success m-4" type="submit">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

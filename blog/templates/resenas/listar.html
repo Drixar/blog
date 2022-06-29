@@ -61,8 +61,8 @@ Todas las Reseñas
                 </tr>
                 {% for resena in resenas %}
                 <tr>
-                    <td><a class="link-dark"
-                        href="{% url 'blog:detalleResena' resena.slug %}">{{ resena.titulo }}</a> </td>
+                    <td><a class="link-dark" href="{% url 'blog:detalleResena' resena.slug %}">{{ resena.titulo }}</a>
+                    </td>
                     <td> {{ resena.autor }} </td>
                     <td> {{ resena.fecha_alta }} </td>
                     <td> {% if resena.estado %}
@@ -73,8 +73,10 @@ Todas las Reseñas
                     </td>
                     <td>
                         {% if user.is_superuser %}
-                        <a href="{% url 'blog:modificar_resena' resena.id %}" class="btn btn-warning btn-sm">modificar</a>
-                        <a href="{% url 'blog:eliminar_resena' resena.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                        <button onclick="abrir_modal_modificar('{% url 'blog:modificar_resena' resena.id %}')"
+                            class="btn btn-warning btn-sm">modificar
+                        </button>
+                        <a href="#" onclick="eliminar_resena({{resena.id}})" class="btn btn-danger btn-sm">Eliminar</a>
                         {% else %}
                         <img src="{{ resena.imagen.url }}" alt="Avatar" class="avatar_img rounded-circle">
                         {% endif %}
@@ -86,7 +88,9 @@ Todas las Reseñas
             </table>
             {% if user.is_superuser %}
             <div class="d-flex justify-content-end">
-                <a href="{% url 'blog:agregar_resena' %}" class="btn btn-success btn-sm text-end">Nueva Reseña</a>
+                <button onclick="abrir_modal_modificar('{% url 'blog:agregar_resena' %}')"
+                    class="btn btn-success btn-sm">Nueva Reseña
+                </button>
             </div>
             {% endif %}
             {% else %}
@@ -99,8 +103,7 @@ Todas las Reseñas
         <ul class="pagination">
             {% if resenas.has_previous %}
             <li class="page-item">
-                <a class="page-link prev"
-                    href="?pagina={{ resenas.previous_page_number }}">Anterior</a>
+                <a class="page-link prev" href="?pagina={{ resenas.previous_page_number }}">Anterior</a>
             </li>
             {% else %}
             <li class="page-item disabled">
@@ -109,56 +112,61 @@ Todas las Reseñas
             {% endif %}
 
             {% if resenas.number|add:'-3' > 1 %}
-                <li class="page-item">
-                    <a class="page-link" href="?pagina=1">1</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?pagina={{ resenas.number|add:'-3' }}">&hellip;</a>
-                </li>
-            {% elif resenas.number|add:'-3' == 1  %}
-                <li class="page-item">
-                    <a class="page-link" href="?pagina=1">1</a>
-                </li>
+            <li class="page-item">
+                <a class="page-link" href="?pagina=1">1</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?pagina={{ resenas.number|add:'-3' }}">&hellip;</a>
+            </li>
+            {% elif resenas.number|add:'-3' == 1 %}
+            <li class="page-item">
+                <a class="page-link" href="?pagina=1">1</a>
+            </li>
             {% endif %}
             {% for i in resenas.paginator.page_range %}
-                {% if resenas.number == i %}
-                    <li class="page-item active">
-                        <a class="page-link" href="?pagina={{i}}">{{i}}</a>
-                    </li>
-                {% elif i > resenas.number|add:'-3' and i < resenas.number|add:'3' %} 
-                    <li class="page-item">
-                        <a class="page-link" href="?pagina={{ i }}">{{ i }}</a>
-                    </li>
+            {% if resenas.number == i %}
+            <li class="page-item active">
+                <a class="page-link" href="?pagina={{i}}">{{i}}</a>
+            </li>
+            {% elif i > resenas.number|add:'-3' and i < resenas.number|add:'3' %} <li class="page-item">
+                <a class="page-link" href="?pagina={{ i }}">{{ i }}</a>
+                </li>
                 {% endif %}
-            {% endfor %}
-            {% if resenas.paginator.num_pages > resenas.number|add:'3' %}
+                {% endfor %}
+                {% if resenas.paginator.num_pages > resenas.number|add:'3' %}
                 <li class="page-item">
                     <a class="page-link" href="?pagina={{ resenas.number|add:'3' }}">&hellip;</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" href="?pagina={{ resenas.paginator.num_pages }}">{{ resenas.paginator.num_pages }}</a>
+                    <a class="page-link" href="?pagina={{ resenas.paginator.num_pages }}">
+                        {{ resenas.paginator.num_pages }}
+                    </a>
                 </li>
-            {% elif resenas.paginator.num_pages == resenas.number|add:'3' %}
+                {% elif resenas.paginator.num_pages == resenas.number|add:'3' %}
                 <li class="page-item">
-                    <a class="page-link" href="?pagina={{ resenas.paginator.num_pages }}">{{ resenas.paginator.num_pages }}</a>
+                    <a class="page-link" href="?pagina={{ resenas.paginator.num_pages }}">{{ resenas.paginator.num_pages
+                        }}</a>
                 </li>
-            {% endif %}
-            {% if resenas.has_next %}
+                {% endif %}
+                {% if resenas.has_next %}
                 <li class="page-item">
-                    <a class="page-link next"
-                        href="?pagina={{ resenas.next_page_number }}">Siguiente</a>
+                    <a class="page-link next" href="?pagina={{ resenas.next_page_number }}">Siguiente</a>
                 </li>
-            {% else %}
-            <li class="page-item disabled">
-                <a class="page-link" href="#">Siguiente</a>
-            </li>
-            {% endif %}
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Siguiente</a>
+                </li>
+                {% endif %}
         </ul>
 
 
     </nav>
 </div>
+<div class="modal fade .bg-transparent" id="modificar">
+
+</div>
 {% endblock contenido %}
+
 {% block menu_footer %}
 <ul>
     <li class="fot-item">
@@ -172,3 +180,34 @@ Todas las Reseñas
     </li>
 </ul>
 {% endblock menu_footer %}
+
+{% block extrajs %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{% static 'assets/js/sweetalert2.all.min.js' %}"></script>
+<script type="text/javascript">
+    var $ = jQuery.noConflict()
+    function abrir_modal_modificar(url) {
+        $('#modificar').load(url, function () {
+            $('#modificar').modal('show');
+        });
+    }
+    
+    function eliminar_resena(id) {
+        console.log(id)
+        Swal.fire({
+            title: '¿Quiere eliminar la reseña?',
+            text: "¡Esta operación no se puede revertir!",
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonColor: '#dc3545',
+            confirmButtonColor: '#007e33',
+            confirmButtonText: 'Eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '../eliminar-resena/'+id+'/';
+            }
+        })
+    }
+</script>
+{% endblock extrajs %}

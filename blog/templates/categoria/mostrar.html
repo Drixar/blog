@@ -45,9 +45,9 @@ Reseñas por Género
 
 
 
-{% if resenas %}
 
 <div class="col-lg-9">
+    {% if resenas %}
     <div class="card lista_resenas">
         <div class="card-header">{{ categoria.nombre }} </div>
         <div class="card-body">
@@ -79,7 +79,12 @@ Reseñas por Género
         </div>
     </div>
     {% else %}
-    <h1>No existen Reseñas registradas</h1>
+    <div class="card lista_autores p-0 ">
+        <div class="card-header">Reseñas de {{ categoria.nombre }}</div>
+        <div class="card-body">
+            <p>No existen Reseñas registradas</p>
+        </div>
+    </div>
     {% endif %}
     <nav class="col-lg-6 offset-lg-3 mt-4 d-flex justify-content-center">
         <nav class="col-lg-6 offset-lg-3 mt-4 d-flex justify-content-center">

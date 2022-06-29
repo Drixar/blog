@@ -8,11 +8,13 @@ urlpatterns = [
     path('nosotros/', nosotros, name = 'nosotros'),
     path('resenas/', resenas, name = 'resenas'),
     path('contacto/', contacto, name = 'contacto'),
+    #este es un Easter Egg para revivir todos los registros eliminados lógicamente.
+    path('revivir/', revivir, name = 'revivir'),
     path('crear-usuario/', crear_usuario, name = 'crear_usuario'),
     path('iniciar-sesion/', iniciar_sesion, name = 'iniciar_sesion'),
     path('cerrar-sesion/', cerrar_sesion, name = 'cerrar_sesion'),
     path('modificar-usuario/', modificar_usuario, name = 'modificar_usuario'),
-    # path('login/', auth_views.LoginView.as_view(template_name='users/login.html')),
+    
     path('agregar-autor/', agregar_autor, name= 'agregar_autor'),
     path('listar-autor/', listar_autor, name= 'listar_autor'),
     path('modificar-autor/<id>/', modificar_autor, name= 'modificar_autor'),

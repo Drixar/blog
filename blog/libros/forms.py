@@ -16,7 +16,6 @@ class FormularioResena(forms.ModelForm):
     class Meta:
         model = Resena
         fields = '__all__'
-
 class FormularioComentario(forms.ModelForm):
     titulo = forms.CharField(max_length=50, required=True, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': "Ingrese el título para su comentario"}))
@@ -33,6 +32,8 @@ class FormularioContacto(forms.ModelForm):
         fields = '__all__'
 
 class FormularioCategoria(forms.ModelForm):
+    nombre = forms.CharField(max_length=30, required=True, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': "Ingrese el Nombre de la Categoría"}))
     class Meta:
         model = Categoria
         fields = '__all__'
@@ -44,12 +45,18 @@ class FormularioAutor(forms.ModelForm):
         fields = '__all__'
 
 class CreateUserForm(UserCreationForm):
-    username = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    first_name = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    last_name = forms.CharField(max_length=100, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    password1 = forms.CharField(max_length=50, required=True, widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    password2 = forms.CharField(max_length=50, required=True, widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    username = forms.CharField(max_length=100, required=True, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': "Ingrese su Nombre de Usuario"}))
+    email = forms.EmailField(required=True, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': "Ingrese el Correo Electrónico"}))
+    first_name = forms.CharField(max_length=100, required=True, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': "Ingrese su Nombre"}))
+    last_name = forms.CharField(max_length=100, required=True, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': "Ingrese su Apellido"}))
+    password1 = forms.CharField(max_length=50, required=True, widget=forms.PasswordInput(
+        attrs={'class': 'form-control', 'placeholder': "Ingrese Su Contraseña"}))
+    password2 = forms.CharField(max_length=50, required=True, widget=forms.PasswordInput(
+        attrs={'class': 'form-control', 'placeholder': "Repita su Contraseña"}))
     class Meta:
         model = User
         fields =['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
